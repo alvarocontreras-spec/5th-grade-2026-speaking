@@ -135,6 +135,16 @@
         .progress-bg { background: #eee; height: 10px; border-radius: 5px; margin-top: 5px; }
         .progress-fill { background: var(--oxford-blue); height: 100%; border-radius: 5px; transition: 1s; }
 
+        .feedback-section {
+            background: #f0f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid var(--oxford-blue);
+        }
+
+        .feedback-section h3 { margin-top: 0; color: var(--oxford-blue); font-size: 1.1rem; }
+
         @media print {
             .no-print { display: none; }
             body { background: white; padding: 0; }
@@ -183,12 +193,13 @@
             <small>Clear enough to be understood; may have some hesitation.</small>
         </div>
 
-        <div style="background: #f8fafc; padding: 15px; border-radius: 10px; margin: 20px 0;">
-            <strong>A2 Descriptors Met:</strong>
-            <ul style="font-size: 0.9rem; padding-left: 20px; color: #475569;">
-                <li>Can describe family and living conditions.</li>
-                <li>Can discuss daily routines and simple hobbies.</li>
-                <li>Can answer questions about school and friends.</li>
+        <div class="feedback-section">
+            <h3>🎯 Key A2 Indicators:</h3>
+            <ul style="font-size: 0.95rem; padding-left: 20px; color: #334155; line-height: 1.6;">
+                <li><strong>Connectors:</strong> Uses simple linkers like <em>'and'</em>, <em>'but'</em>, <em>'because'</em>, and <em>'then'</em> to connect ideas.</li>
+                <li><strong>Full Sentences:</strong> Avoids one-word answers; attempts to construct complete Subject + Verb + Complement structures.</li>
+                <li><strong>Descriptive Ability:</strong> Can describe family, living conditions, and school routines in detail.</li>
+                <li><strong>Personal Interaction:</strong> Can answer questions about friends, hobbies, and personal Saturdays with confidence.</li>
             </ul>
         </div>
 
@@ -234,18 +245,15 @@
             mediaRecorder.ondataavailable = e => chunks.push(e.data);
             
             mediaRecorder.onstop = () => {
-                // Forzamos el tipo mpeg para la descarga como mp3
                 const blob = new Blob(chunks, { type: 'audio/mpeg' });
                 const audioUrl = URL.createObjectURL(blob);
                 document.getElementById('finalAudio').src = audioUrl;
 
-                // Configurar el botón de descarga
                 const downloadBtn = document.getElementById('downloadBtn');
                 downloadBtn.onclick = () => {
                     const studentName = document.getElementById('sName').value || 'Student';
                     const link = document.createElement('a');
                     link.href = audioUrl;
-                    // El navegador lo guardará con extensión mp3
                     link.download = `${studentName.replace(/\s+/g, '_')}_A2_Oral_Test.mp3`;
                     link.click();
                 };
