@@ -3,212 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flyers Speaking Practice</title>
+    <title>My English Interview</title>
     <style>
         :root {
-            --primary: #003D82;
-            --secondary: #F39200;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --bg: #f0f9ff; /* Brighter, kid-friendly blue */
-            --card: #ffffff;
+            --primary: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --bg: #eef2ff;
         }
 
         body {
-            font-family: 'Comic Sans MS', 'Segoe UI', sans-serif; /* Friendly font */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg);
-            padding: 20px;
-            color: #1e293b;
-        }
-
-        .container { max-width: 800px; margin: 0 auto; }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 4px 0px #cbd5e1;
-        }
-
-        header h1 { color: var(--primary); font-size: 2.2rem; }
-
-        .student-info {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
             display: flex;
-            gap: 10px;
-            border: 2px solid var(--primary);
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
         }
 
-        input {
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            flex: 1;
-            font-size: 1rem;
+        .card {
+            background: white;
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 8px solid white;
         }
 
-        section {
-            background: var(--card);
+        .header h1 { color: var(--primary); margin-bottom: 5px; font-size: 2rem; }
+        .header p { color: #64748b; margin-bottom: 25px; font-weight: bold; }
+
+        .question-box {
+            background: #f8fafc;
+            border: 3px dashed var(--secondary);
             padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            border-bottom: 5px solid var(--secondary);
-        }
-
-        .instruction {
-            background: #fff7ed;
-            padding: 15px;
-            border-radius: 10px;
             margin-bottom: 20px;
-            font-size: 1.1rem;
-            color: #9a3412;
-            border: 1px dashed var(--secondary);
-        }
-
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .img-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 3px solid #eee;
-        }
-
-        .recorder-box {
+            min-height: 100px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 15px;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 15px;
+            justify-content: center;
         }
 
-        .timer { font-size: 3rem; font-weight: bold; color: var(--primary); }
+        #questionText {
+            font-size: 1.4rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
 
-        .controls button {
+        .controls { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+
+        button {
             padding: 15px 30px;
-            border: none;
             border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
+            border: none;
             font-size: 1.1rem;
-            transition: 0.2s;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 80%;
         }
 
-        .btn-record { background: var(--danger); color: white; }
-        .btn-stop { background: #475569; color: white; }
-        .btn-download { background: var(--success); color: white; margin-top: 10px; }
+        .btn-next { background: var(--accent); color: white; box-shadow: 0 4px 0 #b45309; }
+        .btn-next:active { transform: translateY(4px); box-shadow: none; }
 
-        button:disabled { opacity: 0.3; cursor: not-allowed; }
-        button:hover:not(:disabled) { transform: scale(1.05); }
+        .btn-rec { background: #ef4444; color: white; }
+        .btn-stop { background: #1e293b; color: white; }
+        
+        .timer {
+            font-family: monospace;
+            font-size: 2rem;
+            color: #ef4444;
+            margin: 10px 0;
+            visibility: hidden;
+        }
 
-        #reportContainer {
-            display: none;
+        .recording .timer { visibility: visible; }
+        
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
             text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            margin-top: 20px;
         }
+
+        audio { margin-top: 15px; width: 100%; }
+        
+        #finishArea { display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>🌟 English Speaking Star! 🌟</h1>
-        <p>Oxford Flyers Level</p>
-    </header>
-
-    <div id="assessmentForm">
-        <div class="student-info">
-            <input type="text" id="studentName" placeholder="Your Name here...">
-            <input type="text" id="className" placeholder="Class (e.g. 5th Grade)">
-        </div>
-
-        <section>
-            <h2>📸 Task: Tell a Story!</h2>
-            <div class="instruction">
-                Look at the pictures and tell a story. What is happening? 
-                <br><strong>Try to speak for 1 minute!</strong>
-            </div>
-
-            <div class="image-gallery">
-                <div class="img-card">
-                    <img src="https://images.unsplash.com/photo-1514432324607-2e4c00038fee?w=400" alt="Park">
-                    <p style="text-align:center; font-weight:bold;">1. The Park</p>
-                </div>
-                <div class="img-card">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="Dinner">
-                    <p style="text-align:center; font-weight:bold;">2. Lunch time</p>
-                </div>
-                <div class="img-card">
-                    <img src="https://images.unsplash.com/photo-1522202176988-696ce933bbe3?w=400" alt="Class">
-                    <p style="text-align:center; font-weight:bold;">3. Studying</p>
-                </div>
-            </div>
-
-            <div class="recorder-box">
-                <div class="timer" id="timer">00:00</div>
-                <div class="controls">
-                    <button class="btn-record" id="rec-btn" onclick="startRecording()">🔴 Start Talking</button>
-                    <button class="btn-stop" id="stop-btn" onclick="stopRecording()" disabled>⏹ I'm Finished</button>
-                </div>
-                <audio id="audioPlayback" controls style="display:none; margin-top:20px;"></audio>
-                <button class="btn-download" id="dl-btn" onclick="downloadAudio()" style="display:none;">💾 Save my Story</button>
-            </div>
-        </section>
-
-        <button onclick="showFinish()" style="width:100%; margin-top:30px; padding:20px; background:var(--primary); color:white; border-radius:15px; border:none; font-size:1.2rem; cursor:pointer;">🏁 Click here when done!</button>
+<div class="card" id="mainApp">
+    <div class="header">
+        <h1>🎤 Talk to Me!</h1>
+        <p>Answer the questions to practice your English</p>
     </div>
 
-    <div id="reportContainer">
-        <h2 style="font-size:3rem;">🎉 Great Job! 🎉</h2>
-        <p id="studentDisplay" style="font-size:1.5rem; margin:20px 0;"></p>
-        <p>You have completed your Speaking Practice.</p>
-        <button onclick="location.reload()" style="background:var(--secondary); color:white; padding:15px 30px; border-radius:10px; border:none; margin-top:20px; cursor:pointer;">Try Again</button>
+    <input type="text" id="studentName" placeholder="Enter your name first!">
+
+    <div class="question-box">
+        <p id="questionText">Click the button below to get your first question!</p>
     </div>
+
+    <div class="controls">
+        <button class="btn-next" onclick="nextQuestion()">🎲 Get New Question</button>
+        <div class="timer" id="timer">00:00</div>
+        <button class="btn-rec" id="recBtn" onclick="startRecording()" disabled>🔴 Start Recording</button>
+        <button class="btn-stop" id="stopBtn" onclick="stopRecording()" style="display:none;">⏹ Stop Answer</button>
+        
+        <audio id="playback" controls style="display:none;"></audio>
+        <button id="dlBtn" style="display:none; background: var(--secondary); color:white;" onclick="download()">💾 Download My Answer</button>
+    </div>
+
+    <button onclick="finish()" style="margin-top: 30px; background: none; color: #94a3b8; text-decoration: underline; font-size: 0.9rem;">I'm finished with all questions</button>
+</div>
+
+<div class="card" id="finishArea">
+    <h1>🌟 Awesome!</h1>
+    <p id="congratsMsg"></p>
+    <button class="btn-next" onclick="location.reload()">Restart Interview</button>
 </div>
 
 <script>
+    const questions = [
+        "What's your name? How old are you? Where do you live?",
+        "What is the first thing you like to do when you get out of bed?",
+        "What do you like to eat for lunch?",
+        "How do you go to school each day?",
+        "What do you like doing after school?",
+        "Who do you live with at home?",
+        "Who is your best friend and why do you like them?",
+        "What is your favorite room in your house?",
+        "Do you have a pet? What is it like?",
+        "What do you usually do on Saturdays?",
+        "What sport do you like playing?"
+    ];
+
     let mediaRecorder;
-    let audioChunks = [];
+    let chunks = [];
     let timerInterval;
     let seconds = 0;
+
+    function nextQuestion() {
+        const randomQ = questions[Math.floor(Math.random() * questions.length)];
+        document.getElementById('questionText').textContent = randomQ;
+        document.getElementById('recBtn').disabled = false;
+        document.getElementById('playback').style.display = 'none';
+        document.getElementById('dlBtn').style.display = 'none';
+    }
 
     async function startRecording() {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
+        chunks = [];
 
-        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
         mediaRecorder.onstop = () => {
-            const blob = new Blob(audioChunks, { type: 'audio/webm' });
+            const blob = new Blob(chunks, { type: 'audio/webm' });
             const url = URL.createObjectURL(blob);
-            const audio = document.getElementById('audioPlayback');
+            const audio = document.getElementById('playback');
             audio.src = url;
             audio.style.display = 'block';
-            document.getElementById('dl-btn').style.display = 'block';
-            stream.getTracks().forEach(track => track.stop());
+            document.getElementById('dlBtn').style.display = 'inline-block';
+            stream.getTracks().forEach(t => t.stop());
         };
 
         mediaRecorder.start();
-        document.getElementById('rec-btn').disabled = true;
-        document.getElementById('stop-btn').disabled = false;
+        document.body.classList.add('recording');
+        document.getElementById('recBtn').style.display = 'none';
+        document.getElementById('stopBtn').style.display = 'inline-block';
         
         seconds = 0;
+        document.getElementById('timer').textContent = "00:00";
         timerInterval = setInterval(() => {
             seconds++;
             let m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -220,26 +193,26 @@
     function stopRecording() {
         mediaRecorder.stop();
         clearInterval(timerInterval);
-        document.getElementById('stop-btn').disabled = true;
+        document.body.classList.remove('recording');
+        document.getElementById('recBtn').style.display = 'inline-block';
+        document.getElementById('stopBtn').style.display = 'none';
     }
 
-    function downloadAudio() {
+    function download() {
         const name = document.getElementById('studentName').value || 'Student';
-        const blob = new Blob(audioChunks, { type: 'audio/webm' });
+        const blob = new Blob(chunks, { type: 'audio/webm' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${name}_my_story.webm`;
+        a.download = `${name}_interview_answer.webm`;
         a.click();
     }
 
-    function showFinish() {
-        const name = document.getElementById('studentName').value;
-        if(!name) return alert("Please type your name first!");
-        
-        document.getElementById('assessmentForm').style.display = 'none';
-        document.getElementById('reportContainer').style.display = 'block';
-        document.getElementById('studentDisplay').textContent = "Excellent work, " + name + "!";
+    function finish() {
+        const name = document.getElementById('studentName').value || 'Friend';
+        document.getElementById('mainApp').style.display = 'none';
+        document.getElementById('finishArea').style.display = 'block';
+        document.getElementById('congratsMsg').textContent = `Great job, ${name}! You practiced your speaking skills today.`;
     }
 </script>
 
