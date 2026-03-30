@@ -108,6 +108,7 @@
         .btn-start { background: var(--oxford-blue); color: white; }
         .btn-next { background: var(--oxford-gold); color: white; display: none; }
         .btn-finish { background: #1e293b; color: white; display: none; }
+        .btn-download { background: var(--success); color: white; display: block; margin-top: 10px; }
         
         button:disabled { background: #cbd5e1; cursor: not-allowed; }
 
@@ -193,8 +194,10 @@
 
         <audio id="finalAudio" controls style="width: 100%; margin: 10px 0;"></audio>
         
-        <button class="btn-start" style="margin-top:20px;" onclick="window.print()">🖨️ Print Report to PDF</button>
-        <button class="btn-next" style="display:block; background:#64748b;" onclick="location.reload()">Start New Session</button>
+        <button id="downloadBtn" class="btn-download no-print">📥 Download Audio (MP3)</button>
+        
+        <button class="btn-start no-print" style="margin-top:20px;" onclick="window.print()">🖨️ Print Report to PDF</button>
+        <button class="btn-next no-print" style="display:block; background:#64748b;" onclick="location.reload()">Start New Session</button>
     </div>
 </div>
 
@@ -229,15 +232,28 @@
             chunks = [];
 
             mediaRecorder.ondataavailable = e => chunks.push(e.data);
+            
             mediaRecorder.onstop = () => {
-                const blob = new Blob(chunks, { type: 'audio/webm' });
-                document.getElementById('finalAudio').src = URL.createObjectURL(blob);
+                // Forzamos el tipo mpeg para la descarga como mp3
+                const blob = new Blob(chunks, { type: 'audio/mpeg' });
+                const audioUrl = URL.createObjectURL(blob);
+                document.getElementById('finalAudio').src = audioUrl;
+
+                // Configurar el botón de descarga
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.onclick = () => {
+                    const studentName = document.getElementById('sName').value || 'Student';
+                    const link = document.createElement('a');
+                    link.href = audioUrl;
+                    // El navegador lo guardará con extensión mp3
+                    link.download = `${studentName.replace(/\s+/g, '_')}_A2_Oral_Test.mp3`;
+                    link.click();
+                };
             };
 
             mediaRecorder.start();
             document.body.classList.add('recording');
             
-            // Start Clock
             timerInt = setInterval(() => {
                 seconds++;
                 let m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -245,7 +261,6 @@
                 document.getElementById('timer').textContent = `${m}:${s}`;
             }, 1000);
 
-            // UI Transitions
             document.getElementById('startBtn').style.display = 'none';
             document.getElementById('nextBtn').style.display = 'block';
             nextQuestion();
@@ -268,18 +283,17 @@
     }
 
     function stopAndFinish() {
-        mediaRecorder.stop();
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.stop();
+        }
         clearInterval(timerInt);
         
-        // Populate Report
         document.getElementById('repName').textContent = document.getElementById('sName').value;
         document.getElementById('repDate').textContent = new Date().toLocaleDateString();
         
-        // Show Report
         document.getElementById('setupUI').style.display = 'none';
         document.getElementById('reportArea').style.display = 'block';
         
-        // Stop all tracks
         mediaRecorder.stream.getTracks().forEach(t => t.stop());
     }
 </script>
