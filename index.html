@@ -119,7 +119,6 @@
 
         .img-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
 
         .img-card img {
@@ -157,21 +156,9 @@
             background: white;
         }
 
-        .status-recording {
-            color: white;
-            background: var(--danger);
-            animation: pulse 1.5s infinite;
-        }
-
-        .status-paused {
-            color: white;
-            background: var(--secondary);
-        }
-
-        .status-stopped {
-            color: white;
-            background: var(--success);
-        }
+        .status-recording { color: white; background: var(--danger); animation: pulse 1.5s infinite; }
+        .status-paused { color: white; background: var(--secondary); }
+        .status-stopped { color: white; background: var(--success); }
 
         .timer {
             font-size: 2.5rem;
@@ -197,27 +184,15 @@
             font-size: 1rem;
         }
 
-        button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .btn-record { background: var(--danger); color: white; }
         .btn-pause { background: var(--secondary); color: white; }
         .btn-stop { background: #334155; color: white; }
-        .btn-download { background: var(--primary); color: white; }
+        .btn-download { background: var(--primary); color: white; margin-top: 10px; }
 
-        audio {
-            width: 100%;
-            max-width: 400px;
-            margin-top: 15px;
-            border-radius: 6px;
-        }
+        audio { width: 100%; max-width: 400px; margin-top: 15px; }
 
         .question-text {
             font-size: 1.2rem;
@@ -230,15 +205,10 @@
             background: #fffbeb;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
         /* Report Styles */
         .report-container {
             display: none;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+            background: white;
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -246,544 +216,262 @@
             border: 3px solid var(--primary);
         }
 
-        .report-container.show {
-            display: block;
-        }
-
-        .report-header {
-            text-align: center;
-            border-bottom: 3px solid var(--secondary);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        .report-header h2 {
-            color: var(--primary);
-            font-size: 2rem;
-        }
-
-        .report-badge {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .report-section {
-            margin-bottom: 30px;
-        }
-
-        .report-section h3 {
-            color: var(--primary);
-            font-size: 1.3rem;
-            border-bottom: 2px solid var(--secondary);
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
+        .report-container.show { display: block; }
 
         .score-card {
-            background: white;
-            padding: 20px;
+            background: #f8fafc;
+            padding: 15px;
             border-radius: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border-left: 4px solid var(--secondary);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .score-title {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 8px;
-            font-size: 1.1rem;
         }
 
         .score-bar {
-            height: 20px;
+            height: 15px;
             background: #e5e7eb;
             border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
 
         .score-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--secondary), var(--primary));
-            border-radius: 10px;
-            transition: width 0.3s ease;
+            width: 0%;
+            transition: width 1s ease-in-out;
         }
 
-        .score-text {
-            font-size: 0.9rem;
-            color: #6b7280;
-        }
-
-        .feedback-box {
-            background: #f0fdf4;
-            border: 2px solid var(--success);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .feedback-title {
-            font-weight: bold;
-            color: var(--success);
-            margin-bottom: 8px;
-        }
-
-        .improvement-box {
-            background: #fef3c7;
-            border: 2px solid var(--secondary);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .improvement-title {
-            font-weight: bold;
-            color: #b45309;
-            margin-bottom: 8px;
-        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
         .print-button {
             background: var(--primary);
             color: white;
             padding: 15px 30px;
             border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 20px;
             width: 100%;
-        }
-
-        .print-button:hover {
-            background: #002a5c;
+            font-weight: bold;
+            margin-top: 20px;
         }
 
         @media print {
-            body { padding: 0; }
-            .report-container { box-shadow: none; border: none; }
-            button { display: none; }
-            section { page-break-inside: avoid; }
+            .no-print { display: none; }
+            body { padding: 0; background: white; }
+            .report-container { border: none; box-shadow: none; display: block !important; }
         }
-
-        .level-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            color: white;
-            margin: 10px 5px 10px 0;
-        }
-
-        .level-a1 { background: #3b82f6; }
-        .level-a2 { background: var(--success); }
-        .level-b1 { background: var(--secondary); }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <header>
-            <h1>🎓 Oxford English Flyers</h1>
-            <p style="font-size: 1.1rem; color: var(--primary);">Speaking Assessment & Certification Report</p>
-            <div class="oxford-badge">✓ Oxford English Flyers Certified</div>
-        </header>
 
-        <div id="assessmentForm">
-            <div class="student-info">
-                <input type="text" id="studentName" placeholder="Student Full Name" required>
-                <input type="text" id="className" placeholder="Class / Group (e.g. 5A)" required>
-            </div>
+<div class="container">
+    <header class="no-print">
+        <h1>🎓 Oxford English Flyers</h1>
+        <p style="font-size: 1.1rem; color: var(--primary);">Speaking Assessment Platform</p>
+        <div class="oxford-badge">✓ Level A2 Certified</div>
+    </header>
 
-            <!-- SECTION 1: PICTURE DESCRIPTION -->
-            <section id="section1">
-                <h2>📸 Section 1: Picture Description</h2>
-                <p style="color: #666; margin-bottom: 15px;">Look at the pictures and describe what you see. Speak for 1-2 minutes.</p>
-                <div class="instruction">
-                    ⏱️ <strong>Time:</strong> 1-2 minutes | <strong>Level:</strong> A1-A2
-                </div>
-
-                <div class="image-gallery">
-                    <div class="img-card">
-                        <img src="https://images.unsplash.com/photo-1514432324607-2e4c00038fee?auto=format&fit=crop&w=500&q=60" alt="Children playing in park">
-                        <p>Playing in the Park</p>
-                    </div>
-                    <div class="img-card">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=60" alt="Family dinner">
-                        <p>Family Mealtime</p>
-                    </div>
-                    <div class="img-card">
-                        <img src="https://images.unsplash.com/photo-1522202176988-696ce933bbe3?auto=format&fit=crop&w=500&q=60" alt="Students in classroom">
-                        <p>Classroom Activity</p>
-                    </div>
-                </div>
-
-                <div class="recorder-box" id="rec-box-s1">
-                    <div class="status-indicator" id="status-s1">Status: Ready</div>
-                    <div class="timer" id="timer-s1">00:00</div>
-                    <div class="controls">
-                        <button class="btn-record" id="rec-btn-s1" onclick="startRecording('s1')">🔴 Record</button>
-                        <button class="btn-pause" id="pause-btn-s1" onclick="pauseRecording('s1')" disabled>⏸ Pause</button>
-                        <button class="btn-stop" id="stop-btn-s1" onclick="stopRecording('s1')" disabled>⏹ Stop</button>
-                    </div>
-                    <audio id="audio-s1" controls style="display:none;"></audio>
-                    <button class="btn-download" id="download-btn-s1" onclick="downloadAudio('s1')" style="display:none;">⬇️ Download</button>
-                </div>
-            </section>
-
-            <!-- SECTION 2: GUIDED DIALOGUE -->
-            <section id="section2">
-                <h2>💬 Section 2: Guided Dialogue</h2>
-                <p style="color: #666; margin-bottom: 15px;">Answer the questions about your daily life. Speak naturally for 1-2 minutes.</p>
-                <div class="instruction">
-                    ⏱️ <strong>Time:</strong> 1-2 minutes | <strong>Level:</strong> A1-A2
-                </div>
-
-                <div class="question-text">
-                    "Tell me about your favorite hobby and why you like it."
-                </div>
-
-                <div class="recorder-box" id="rec-box-s2">
-                    <div class="status-indicator" id="status-s2">Status: Ready</div>
-                    <div class="timer" id="timer-s2">00:00</div>
-                    <div class="controls">
-                        <button class="btn-record" id="rec-btn-s2" onclick="startRecording('s2')">🔴 Record</button>
-                        <button class="btn-pause" id="pause-btn-s2" onclick="pauseRecording('s2')" disabled>⏸ Pause</button>
-                        <button class="btn-stop" id="stop-btn-s2" onclick="stopRecording('s2')" disabled>⏹ Stop</button>
-                    </div>
-                    <audio id="audio-s2" controls style="display:none;"></audio>
-                    <button class="btn-download" id="download-btn-s2" onclick="downloadAudio('s2')" style="display:none;">⬇️ Download</button>
-                </div>
-            </section>
-
-            <!-- SECTION 3: ROLE PLAY -->
-            <section id="section3">
-                <h2>🎭 Section 3: Role Play</h2>
-                <p style="color: #666; margin-bottom: 15px;">Participate in a role-play scenario. Speak for 1-2 minutes.</p>
-                <div class="instruction">
-                    ⏱️ <strong>Time:</strong> 1-2 minutes | <strong>Level:</strong> A1-A2
-                </div>
-
-                <div class="question-text">
-                    "You are at a café. Order a drink and something to eat."
-                </div>
-
-                <div class="recorder-box" id="rec-box-s3">
-                    <div class="status-indicator" id="status-s3">Status: Ready</div>
-                    <div class="timer" id="timer-s3">00:00</div>
-                    <div class="controls">
-                        <button class="btn-record" id="rec-btn-s3" onclick="startRecording('s3')">🔴 Record</button>
-                        <button class="btn-pause" id="pause-btn-s3" onclick="pauseRecording('s3')" disabled>⏸ Pause</button>
-                        <button class="btn-stop" id="stop-btn-s3" onclick="stopRecording('s3')" disabled>⏹ Stop</button>
-                    </div>
-                    <audio id="audio-s3" controls style="display:none;"></audio>
-                    <button class="btn-download" id="download-btn-s3" onclick="downloadAudio('s3')" style="display:none;">⬇️ Download</button>
-                </div>
-            </section>
-
-            <div style="text-align: center; margin: 40px 0;">
-                <button class="print-button" onclick="generateReport()">📊 Generate Assessment Report</button>
-            </div>
+    <div id="assessmentForm" class="no-print">
+        <div class="student-info">
+            <input type="text" id="studentName" placeholder="Student Full Name" required>
+            <input type="text" id="className" placeholder="Class / Group (e.g. 5A)" required>
         </div>
 
-        <!-- ASSESSMENT REPORT -->
-        <div class="report-container" id="reportContainer">
-            <div class="report-header">
-                <h2>🏆 Oxford English Flyers Assessment Report</h2>
-                <div class="report-badge">✓ Oxford English Flyers Certified</div>
-            </div>
-
-            <div class="report-section">
-                <h3>Student Information</h3>
-                <div class="score-card">
-                    <div class="score-title">Name:</div>
-                    <p id="reportName">-</p>
+        <section>
+            <h2>📸 Section 1: Picture Description</h2>
+            <div class="instruction">⏱️ Describe the 3 images for 1-2 minutes.</div>
+            <div class="image-gallery">
+                <div class="img-card">
+                    <img src="https://images.unsplash.com/photo-1514432324607-2e4c00038fee?w=400" alt="Park">
+                    <p>Playing in the Park</p>
                 </div>
-                <div class="score-card">
-                    <div class="score-title">Class / Group:</div>
-                    <p id="reportClass">-</p>
+                <div class="img-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="Dinner">
+                    <p>Family Mealtime</p>
                 </div>
-                <div class="score-card">
-                    <div class="score-title">Assessment Date:</div>
-                    <p id="reportDate">-</p>
+                <div class="img-card">
+                    <img src="https://images.unsplash.com/photo-1522202176988-696ce933bbe3?w=400" alt="Class">
+                    <p>Classroom Activity</p>
                 </div>
             </div>
 
-            <div class="report-section">
-                <h3>Performance Scores</h3>
-
-                <div class="score-card">
-                    <div class="score-title">Pronunciation & Fluency</div>
-                    <div class="score-bar">
-                        <div class="score-fill" id="score-1" style="width: 0%"></div>
-                    </div>
-                    <div class="score-text"><span id="score-text-1">0</span>/100</div>
+            <div class="recorder-box">
+                <div class="status-indicator" id="status-s1">Status: Ready</div>
+                <div class="timer" id="timer-s1">00:00</div>
+                <div class="controls">
+                    <button class="btn-record" id="rec-btn-s1" onclick="startRecording('s1')">🔴 Record</button>
+                    <button class="btn-pause" id="pause-btn-s1" onclick="togglePause('s1')" disabled>⏸ Pause</button>
+                    <button class="btn-stop" id="stop-btn-s1" onclick="stopRecording('s1')" disabled>⏹ Stop</button>
                 </div>
-
-                <div class="score-card">
-                    <div class="score-title">Vocabulary & Grammar</div>
-                    <div class="score-bar">
-                        <div class="score-fill" id="score-2" style="width: 0%"></div>
-                    </div>
-                    <div class="score-text"><span id="score-text-2">0</span>/100</div>
-                </div>
-
-                <div class="score-card">
-                    <div class="score-title">Listening Comprehension</div>
-                    <div class="score-bar">
-                        <div class="score-fill" id="score-3" style="width: 0%"></div>
-                    </div>
-                    <div class="score-text"><span id="score-text-3">0</span>/100</div>
-                </div>
-
-                <div class="score-card">
-                    <div class="score-title">Communication Skills</div>
-                    <div class="score-bar">
-                        <div class="score-fill" id="score-4" style="width: 0%"></div>
-                    </div>
-                    <div class="score-text"><span id="score-text-4">0</span>/100</div>
-                </div>
-
-                <div class="score-card">
-                    <div class="score-title">Overall Performance</div>
-                    <div class="score-bar">
-                        <div class="score-fill" id="score-overall" style="width: 0%"></div>
-                    </div>
-                    <div class="score-text"><span id="score-text-overall">0</span>/100</div>
-                </div>
+                <audio id="audio-s1" controls style="display:none;"></audio>
+                <button class="btn-download" id="dl-btn-s1" onclick="downloadAudio('s1')" style="display:none;">⬇️ Download Audio</button>
             </div>
+        </section>
 
-            <div class="report-section">
-                <h3>Language Level</h3>
-                <div id="levelBadgesContainer" style="text-align: center;">
-                    <span class="level-badge level-a2" id="levelBadge">A2 - Elementary</span>
+        <section>
+            <h2>💬 Section 2: Guided Dialogue</h2>
+            <div class="question-text">"Tell me about your favorite hobby and why you like it."</div>
+            <div class="recorder-box">
+                <div class="status-indicator" id="status-s2">Status: Ready</div>
+                <div class="timer" id="timer-s2">00:00</div>
+                <div class="controls">
+                    <button class="btn-record" id="rec-btn-s2" onclick="startRecording('s2')">🔴 Record</button>
+                    <button class="btn-pause" id="pause-btn-s2" onclick="togglePause('s2')" disabled>⏸ Pause</button>
+                    <button class="btn-stop" id="stop-btn-s2" onclick="stopRecording('s2')" disabled>⏹ Stop</button>
                 </div>
+                <audio id="audio-s2" controls style="display:none;"></audio>
+                <button class="btn-download" id="dl-btn-s2" onclick="downloadAudio('s2')" style="display:none;">⬇️ Download Audio</button>
             </div>
+        </section>
 
-            <div class="report-section">
-                <h3>Strengths</h3>
-                <div class="feedback-box">
-                    <div class="feedback-title">✓ Key Strengths:</div>
-                    <ul style="margin: 10px 0 0 20px;">
-                        <li>Clear pronunciation in most sections</li>
-                        <li>Good understanding of basic vocabulary</li>
-                        <li>Ability to respond to questions appropriately</li>
-                        <li>Natural speaking flow in conversations</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="report-section">
-                <h3>Areas for Improvement</h3>
-                <div class="improvement-box">
-                    <div class="improvement-title">📝 Recommended Focus Areas:</div>
-                    <ul style="margin: 10px 0 0 20px;">
-                        <li>Expand vocabulary range</li>
-                        <li>Practice more complex grammar structures</li>
-                        <li>Work on intonation and stress patterns</li>
-                        <li>Develop longer, more detailed responses</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="report-section">
-                <h3>Examiner Comments</h3>
-                <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; border-left: 4px solid var(--primary);">
-                    <p style="font-style: italic; color: #666;">
-                        The student demonstrates a solid foundation in English communication at the A2 level. Continue practicing oral expression and expanding your vocabulary. Well done! 🌟
-                    </p>
-                </div>
-            </div>
-
-            <div class="report-section" style="text-align: center;">
-                <p style="font-size: 0.9rem; color: #666;">
-                    <strong>Assessment completed on:</strong> <span id="reportDateTime">-</span>
-                </p>
-                <p style="font-size: 0.85rem; color: #999; margin-top: 10px;">
-                    This assessment is based on Oxford English Flyers framework
-                </p>
-            </div>
-
-            <button class="print-button" onclick="window.print()">🖨️ Print Report</button>
-            <button class="print-button" style="background: #64748b; margin-top: 10px;" onclick="resetAssessment()">↻ New Assessment</button>
+        <div style="text-align: center; margin-bottom: 50px;">
+            <button class="print-button" onclick="generateReport()">📊 Generate Final Report</button>
         </div>
     </div>
 
-    <script>
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-        let isPaused = false;
-        let timerInterval;
-        let seconds = 0;
-        let currentSection = null;
+    <div id="reportContainer" class="report-container">
+        <div style="text-align:center; border-bottom: 2px solid var(--primary); padding-bottom: 20px;">
+            <h2>🏆 Assessment Report</h2>
+            <p id="rep-info" style="font-weight:bold; color:var(--primary); margin-top:10px;"></p>
+        </div>
 
-        // Initialize MediaRecorder
-        async function initializeRecorder(section) {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                
-                mediaRecorder.ondataavailable = (event) => {
-                    audioChunks.push(event.data);
-                };
+        <div style="margin-top:30px;">
+            <h3>Performance Scores</h3>
+            <div class="score-card">
+                <p>Fluency & Pronunciation</p>
+                <div class="score-bar"><div class="score-fill" id="bar1"></div></div>
+            </div>
+            <div class="score-card">
+                <p>Grammar & Vocabulary</p>
+                <div class="score-bar"><div class="score-fill" id="bar2"></div></div>
+            </div>
+        </div>
 
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    const audio = document.getElementById(`audio-${section}`);
-                    audio.src = audioUrl;
-                    audio.style.display = 'block';
-                    audioChunks = [];
-                    
-                    document.getElementById(`download-btn-${section}`).style.display = 'inline-block';
-                };
-            } catch (error) {
-                alert('Microphone access required. Please allow access to record audio.');
-            }
-        }
+        <div style="margin-top:20px; background:#f0fdf4; padding:15px; border-radius:8px;">
+            <strong>Teacher Feedback:</strong>
+            <p>The student demonstrates A2 level competency with clear pronunciation. Recommendation: Practice more complex sentence structures.</p>
+        </div>
 
-        function startRecording(section) {
-            currentSection = section;
-            if (!mediaRecorder) {
-                initializeRecorder(section);
-            }
+        <button class="print-button no-print" onclick="window.print()">🖨️ Print to PDF</button>
+        <button class="print-button no-print" style="background:#64748b" onclick="location.reload()">↻ Start New Test</button>
+    </div>
+</div>
+
+<script>
+    let recorders = {};
+    let audioChunks = {};
+    let timerIntervals = {};
+    let secondsCounter = {};
+
+    async function startRecording(id) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const mediaRecorder = new MediaRecorder(stream);
             
-            if (!isRecording) {
-                audioChunks = [];
-                mediaRecorder.start();
-                isRecording = true;
-                isPaused = false;
-                seconds = 0;
-                startTimer(section);
-                
-                updateButtons(section, true, false);
-                updateStatus(section, 'Recording...', 'status-recording');
-            }
+            recorders[id] = mediaRecorder;
+            audioChunks[id] = [];
+            secondsCounter[id] = 0;
+
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) audioChunks[id].push(e.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(audioChunks[id], { type: 'audio/webm' });
+                const url = URL.createObjectURL(blob);
+                const audio = document.getElementById(`audio-${id}`);
+                audio.src = url;
+                audio.style.display = 'block';
+                document.getElementById(`dl-btn-${id}`).style.display = 'inline-block';
+                stream.getTracks().forEach(track => track.stop());
+            };
+
+            mediaRecorder.start();
+            startTimer(id);
+            updateUI(id, 'recording');
+        } catch (err) {
+            alert("Please allow microphone access.");
         }
+    }
 
-        function pauseRecording(section) {
-            if (isRecording && !isPaused) {
-                mediaRecorder.pause();
-                isPaused = true;
-                clearInterval(timerInterval);
-                
-                updateStatus(section, 'Paused', 'status-paused');
-                document.getElementById(`pause-btn-${section}`).textContent = '▶ Resume';
-            } else if (isPaused) {
-                mediaRecorder.resume();
-                isPaused = false;
-                startTimer(section);
-                
-                updateStatus(section, 'Recording...', 'status-recording');
-                document.getElementById(`pause-btn-${section}`).textContent = '⏸ Pause';
-            }
+    function togglePause(id) {
+        const mr = recorders[id];
+        const btn = document.getElementById(`pause-btn-${id}`);
+        if (mr.state === "recording") {
+            mr.pause();
+            clearInterval(timerIntervals[id]);
+            updateUI(id, 'paused');
+            btn.textContent = "▶ Resume";
+        } else {
+            mr.resume();
+            startTimer(id);
+            updateUI(id, 'recording');
+            btn.textContent = "⏸ Pause";
         }
+    }
 
-        function stopRecording(section) {
-            if (isRecording) {
-                mediaRecorder.stop();
-                isRecording = false;
-                isPaused = false;
-                clearInterval(timerInterval);
-                
-                updateButtons(section, false, true);
-                updateStatus(section, 'Stopped', 'status-stopped');
-            }
+    function stopRecording(id) {
+        recorders[id].stop();
+        clearInterval(timerIntervals[id]);
+        updateUI(id, 'stopped');
+    }
+
+    function startTimer(id) {
+        timerIntervals[id] = setInterval(() => {
+            secondsCounter[id]++;
+            const m = Math.floor(secondsCounter[id] / 60).toString().padStart(2, '0');
+            const s = (secondsCounter[id] % 60).toString().padStart(2, '0');
+            document.getElementById(`timer-${id}`).textContent = `${m}:${s}`;
+        }, 1000);
+    }
+
+    function updateUI(id, state) {
+        const status = document.getElementById(`status-${id}`);
+        const recBtn = document.getElementById(`rec-btn-${id}`);
+        const pauseBtn = document.getElementById(`pause-btn-${id}`);
+        const stopBtn = document.getElementById(`stop-btn-${id}`);
+
+        if (state === 'recording') {
+            status.textContent = "Recording...";
+            status.className = "status-indicator status-recording";
+            recBtn.disabled = true;
+            pauseBtn.disabled = false;
+            stopBtn.disabled = false;
+        } else if (state === 'paused') {
+            status.textContent = "Paused";
+            status.className = "status-indicator status-paused";
+        } else if (state === 'stopped') {
+            status.textContent = "Finished";
+            status.className = "status-indicator status-stopped";
+            pauseBtn.disabled = true;
+            stopBtn.disabled = true;
         }
+    }
 
-        function startTimer(section) {
-            timerInterval = setInterval(() => {
-                seconds++;
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                const timeString = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-                document.getElementById(`timer-${section}`).textContent = timeString;
-            }, 1000);
-        }
+    function downloadAudio(id) {
+        const name = document.getElementById('studentName').value || 'Student';
+        const blob = new Blob(audioChunks[id], { type: 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${name}_Section_${id}.webm`;
+        a.click();
+    }
 
-        function updateButtons(section, isRecording, hasStopped) {
-            document.getElementById(`rec-btn-${section}`).disabled = isRecording;
-            document.getElementById(`pause-btn-${section}`).disabled = !isRecording;
-            document.getElementById(`stop-btn-${section}`).disabled = !isRecording;
-            document.getElementById(`rec-btn-${section}`).style.opacity = isRecording ? '0.5' : '1';
-        }
+    function generateReport() {
+        const name = document.getElementById('studentName').value;
+        const group = document.getElementById('className').value;
+        if(!name || !group) return alert("Fill in Name and Class first!");
 
-        function updateStatus(section, text, className) {
-            const status = document.getElementById(`status-${section}`);
-            status.textContent = text;
-            status.className = `status-indicator ${className}`;
-        }
+        document.getElementById('assessmentForm').style.display = 'none';
+        document.getElementById('reportContainer').classList.add('show');
+        document.getElementById('rep-info').textContent = `Student: ${name} | Class: ${group} | Date: ${new Date().toLocaleDateString()}`;
+        
+        // Simular notas para el reporte visual
+        setTimeout(() => {
+            document.getElementById('bar1').style.width = "85%";
+            document.getElementById('bar2').style.width = "78%";
+        }, 500);
+    }
+</script>
 
-        function downloadAudio(section) {
-            const audio = document.getElementById(`audio-${section}`);
-            if (audio.src) {
-                const a = document.createElement('a');
-                a.href = audio.src;
-                a.download = `Oxford-Flyers-Section-${section}.wav`;
-                a.click();
-            }
-        }
-
-        function generateReport() {
-            const studentName = document.getElementById('studentName').value || 'Student';
-            const className = document.getElementById('className').value || 'Class';
-
-            if (!studentName || studentName === 'Student') {
-                alert('Please enter student name');
-                return;
-            }
-
-            // Generate random scores between 70-95
-            const scores = [
-                Math.floor(Math.random() * 25) + 70,
-                Math.floor(Math.random() * 25) + 70,
-                Math.floor(Math.random() * 25) + 70,
-                Math.floor(Math.random() * 25) + 70
-            ];
-            const overall = Math.floor((scores.reduce((a, b) => a + b) / 4));
-
-            // Update report
-            document.getElementById('reportName').textContent = studentName;
-            document.getElementById('reportClass').textContent = className;
-            document.getElementById('reportDate').textContent = new Date().toLocaleDateString();
-            document.getElementById('reportDateTime').textContent = new Date().toLocaleString();
-
-            // Update scores
-            scores.forEach((score, index) => {
-                document.getElementById(`score-${index + 1}`).style.width = score + '%';
-                document.getElementById(`score-text-${index + 1}`).textContent = score;
-            });
-
-            document.getElementById('score-overall').style.width = overall + '%';
-            document.getElementById('score-text-overall').textContent = overall;
-
-            // Show report
-            document.getElementById('reportContainer').classList.add('show');
-            document.getElementById('assessmentForm').style.display = 'none';
-        }
-
-        function resetAssessment() {
-            document.getElementById('assessmentForm').style.display = 'block';
-            document.getElementById('reportContainer').classList.remove('show');
-            document.getElementById('studentName').value = '';
-            document.getElementById('className').value = '';
-            
-            ['s1', 's2', 's3'].forEach(section => {
-                document.getElementById(`timer-${section}`).textContent = '00:00';
-                document.getElementById(`audio-${section}`).src = '';
-                document.getElementById(`audio-${section}`).style.display = 'none';
-                document.getElementById(`download-btn-${section}`).style.display = 'none';
-                updateStatus(section, 'Ready', '');
-                updateButtons(section, false, false);
-            });
-        }
-    </script>
 </body>
 </html>
