@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxford Flyers - A2 Assessment CSI</title>
+    <title>ORAL TASK II - CSI Assessment</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -27,7 +27,7 @@
 
         .card {
             background: white;
-            padding: 30px;
+            padding: 35px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             text-align: center;
@@ -37,108 +37,86 @@
         .header-logo {
             font-weight: bold;
             color: var(--oxford-blue);
-            font-size: 1.4rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
-            text-transform: uppercase;
         }
 
-        /* DISEÑO DE INPUTS MEJORADO */
         .student-inputs { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 10px; 
-            margin-bottom: 20px; 
+            gap: 12px; 
+            margin-bottom: 25px; 
         }
         
         .full-width { grid-column: span 2; }
 
         input {
-            padding: 12px;
+            padding: 14px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             outline: none;
+            transition: 0.3s;
         }
 
         input:focus { border-color: var(--oxford-blue); }
 
-        /* CUADRO DE PREGUNTAS FLEXIBLE (NO SE CORTA) */
         .question-display {
             background: #fffcf0;
             border: 2px solid var(--oxford-gold);
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
             margin: 20px 0;
-            min-height: 140px;
-            height: auto;
+            min-height: 150px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            overflow: visible;
         }
 
-        #qNumber { color: var(--oxford-gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 8px; }
-        #qText { font-size: 1.25rem; color: var(--oxford-blue); line-height: 1.5; margin: 0; word-wrap: break-word; }
+        #qNumber { color: var(--oxford-gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
+        #qText { font-size: 1.4rem; color: var(--oxford-blue); line-height: 1.4; margin: 0; }
 
-        .timer-box { font-size: 2.2rem; font-weight: bold; color: var(--danger); margin: 15px 0; display: none; }
+        .timer-box { font-size: 2.5rem; font-weight: bold; color: var(--danger); margin: 20px 0; display: none; }
         .recording .timer-box { display: block; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.5; } }
 
         button {
-            padding: 15px;
+            padding: 16px;
             border-radius: 12px;
             border: none;
             font-weight: bold;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: 0.2s;
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            transition: 0.3s;
         }
 
         .btn-start { background: var(--oxford-blue); color: white; }
         .btn-next { background: var(--oxford-gold); color: white; display: none; }
         .btn-finish { background: #1e293b; color: white; display: none; }
-        .btn-drive { background: var(--drive-blue); color: white; margin-top: 10px; }
-        .btn-retry { background: var(--danger); color: white; font-size: 0.9rem; padding: 10px; }
-        
-        #reportArea {
-            display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid var(--oxford-blue);
-        }
+        .btn-drive { background: var(--drive-blue); color: white; margin-top: 15px; }
+        .btn-retry { background: var(--danger); color: white; font-size: 0.9rem; margin-top: 10px; }
 
-        .review-box {
-            background: #f8fafc;
-            border: 2px dashed #cbd5e1;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+        /* BLOQUEO FINAL */
+        #finalSuccessMessage {
+            display: none;
+            padding: 20px;
             text-align: center;
         }
+        
+        .icon-check { font-size: 5rem; color: var(--success); margin-bottom: 15px; }
 
-        .feedback-section {
-            background: #f0f7ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border-left: 5px solid var(--oxford-blue);
-        }
-
-        .status-msg { font-size: 0.9rem; font-weight: bold; text-align: center; }
-
-        @media print { .no-print { display: none; } #reportArea { display: block !important; border: none; } }
+        @media print { .no-print { display: none; } #reportArea { display: block !important; border: none; box-shadow: none; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="card no-print" id="setupUI">
-        <div class="header-logo">Oxford Oral Assessment</div>
+        <div class="header-logo">ORAL TASK II</div>
         
         <div class="student-inputs">
             <input type="text" id="firstName" placeholder="First Name">
@@ -147,8 +125,8 @@
         </div>
 
         <div class="question-display">
-            <div id="qNumber">READY?</div>
-            <p id="qText">Please enter your details to begin.</p>
+            <div id="qNumber">Ready to start?</div>
+            <p id="qText">Complete your details above.</p>
         </div>
 
         <div class="timer-box" id="timer">00:00</div>
@@ -158,29 +136,31 @@
         <button id="finishBtn" class="btn-finish" onclick="stopAndFinish()">🏁 Finish & Review</button>
     </div>
 
-    <div id="reportArea">
-        <h2 style="color: var(--oxford-blue); margin-top: 0;">Evaluation Report</h2>
-        <p><strong>Student:</strong> <span id="repName"></span> | <strong>Class:</strong> <span id="repClass"></span></p>
-        
-        <div class="review-box no-print">
-            <p style="margin-top:0; color: var(--oxford-blue); font-weight: bold;">🎧 Listen to your recording:</p>
-            <audio id="finalAudio" controls style="width: 100%; margin-bottom: 10px;"></audio>
-            <button class="btn-retry" onclick="retryTest()">🔄 Record Again</button>
+    <div id="reportArea" class="card" style="display:none;">
+        <div id="submissionControls">
+            <h2 style="color: var(--oxford-blue); margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">Evaluation Report</h2>
+            <p style="text-align: left;"><strong>Student:</strong> <span id="repName"></span></p>
+            <p style="text-align: left;"><strong>Class:</strong> <span id="repClass"></span></p>
+            
+            <div class="no-print" style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                <p style="margin-top:0; color: var(--oxford-blue); font-weight: bold;">🎧 Step 1: Review your audio</p>
+                <audio id="finalAudio" controls style="width: 100%; margin-bottom: 10px;"></audio>
+                <button id="retryBtn" class="btn-retry" onclick="retryTest()">🔄 Delete & Record Again</button>
+            </div>
+
+            <div class="no-print">
+                <p style="color: var(--oxford-blue); font-weight: bold;">📤 Step 2: Final Step</p>
+                <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">Confirm & Send to Teacher</button>
+                <div id="status" style="font-weight: bold; margin-top: 10px;"></div>
+            </div>
         </div>
 
-        <div class="feedback-section">
-            <h3 style="margin-top:0">🎯 My Progress (A2):</h3>
-            <ul style="font-size: 0.9rem; color: #334155; padding-left: 20px;">
-                <li>I connect ideas using <b>and, but, because.</b></li>
-                <li>I speak in <b>complete sentences.</b></li>
-                <li>I can describe my <b>home and school.</b></li>
-            </ul>
-        </div>
-
-        <div class="no-print">
-            <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">📤 Send to Teacher</button>
-            <div id="status" class="status-msg"></div>
-            <button style="background: #64748b; color:white; font-size: 0.9rem;" onclick="window.print()">🖨️ Save as PDF</button>
+        <div id="finalSuccessMessage">
+            <div class="icon-check">✓</div>
+            <h2 style="color: var(--oxford-blue); margin-bottom: 10px;">ORAL TASK II COMPLETED</h2>
+            <p style="font-size: 1.2rem; color: #475569;">Your assessment has been sent successfully.</p>
+            <p style="color: #64748b; margin-bottom: 30px;">Great job! You can now close this window.</p>
+            <button style="background: #64748b; color:white; width: auto; padding: 12px 30px;" onclick="window.print()">🖨️ Print/Save Report</button>
         </div>
     </div>
 </div>
@@ -189,23 +169,24 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYJh8YRfdxdqwCo4cnU6hVUsWu4NnwJQtPV5yeVtUn-CCytM7uN8L8Ts78QLBKqqWPvA/exec";
     
     const questions = [
-        "What's your name?",
-        "How old are you?",
-        "What time do you wake up?",
-        "How do you go to school every day?",
-        "What do you do after school?",
-        "What's your favorite subject?",
-        "Do you have a pet? What is its name?",
+        "What's your name and how old are you?",
+        "What is the first thing you like to do when you get out of bed?",
+        "What do you like to eat for lunch?",
+        "How do you go to school each day?",
+        "What do you like doing after school?",
+        "Who do you live with at home?",
+        "Who is your best friend and why do you like them?",
+        "What is your favorite room in your house?",
+        "Do you have a pet? What is it like?",
         "What do you usually do on Saturdays?",
-        "What's your favourite sport?",
-        "What time do you usually go to bed?"
+        "What sport do you like playing?"
     ];
 
     let currentIdx = 0, mediaRecorder, chunks = [], timerInt, seconds = 0, audioBlob;
 
     async function initTest() {
         if(!document.getElementById('firstName').value || !document.getElementById('lastName').value) {
-            return alert("Please enter both First and Last Name!");
+            return alert("Please enter your name and last name!");
         }
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -220,21 +201,19 @@
             document.body.classList.add('recording');
             timerInt = setInterval(() => {
                 seconds++;
-                let m = Math.floor(seconds/60).toString().padStart(2,'0');
-                let s = (seconds%60).toString().padStart(2,'0');
+                let m = Math.floor(seconds/60).toString().padStart(2,'0'), s = (seconds%60).toString().padStart(2,'0');
                 document.getElementById('timer').textContent = `${m}:${s}`;
             }, 1000);
             document.getElementById('startBtn').style.display = 'none';
             document.getElementById('nextBtn').style.display = 'block';
             nextQuestion();
-        } catch (err) { alert("Mic error: " + err); }
+        } catch (err) { alert("Mic error: Please allow microphone access."); }
     }
 
     function nextQuestion() {
         if(currentIdx < questions.length) {
             document.getElementById('qNumber').textContent = `QUESTION ${currentIdx + 1} OF ${questions.length}`;
-            document.getElementById('qText').textContent = questions[currentIdx];
-            currentIdx++;
+            document.getElementById('qText').textContent = questions[currentIdx++];
             if(currentIdx === questions.length) {
                 document.getElementById('nextBtn').style.display = 'none';
                 document.getElementById('finishBtn').style.display = 'block';
@@ -245,8 +224,7 @@
     function stopAndFinish() {
         mediaRecorder.stop();
         clearInterval(timerInt);
-        const fullName = `${document.getElementById('lastName').value}, ${document.getElementById('firstName').value}`;
-        document.getElementById('repName').textContent = fullName;
+        document.getElementById('repName').textContent = `${document.getElementById('lastName').value}, ${document.getElementById('firstName').value}`;
         document.getElementById('repClass').textContent = document.getElementById('sClass').value;
         document.getElementById('setupUI').style.display = 'none';
         document.getElementById('reportArea').style.display = 'block';
@@ -254,7 +232,7 @@
     }
 
     function retryTest() {
-        if(confirm("Start again? Current recording will be deleted.")) {
+        if(confirm("Are you sure you want to delete this recording and start over?")) {
             currentIdx = 0; seconds = 0; chunks = [];
             document.getElementById('reportArea').style.display = 'none';
             document.getElementById('setupUI').style.display = 'block';
@@ -267,30 +245,37 @@
 
     async function uploadToDrive() {
         const status = document.getElementById('status');
-        const fName = document.getElementById('firstName').value;
-        const lName = document.getElementById('lastName').value;
-        const sClass = document.getElementById('sClass').value;
+        const driveBtn = document.getElementById('driveBtn');
         
-        status.textContent = "⏳ Sending to teacher...";
+        driveBtn.disabled = true;
+        status.textContent = "⏳ Sending to teacher... do not close the window.";
         status.style.color = "orange";
 
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
         reader.onloadend = async () => {
             const base64data = reader.result.split(',')[1];
-            fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify({
-                    base64: base64data,
-                    filename: `${lName}_${fName}_${sClass}.mp3`
-                })
-            });
-            setTimeout(() => {
-                status.textContent = "✅ Sent successfully!";
-                status.style.color = "green";
-                document.getElementById('driveBtn').disabled = true;
-            }, 2000);
+            try {
+                fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify({
+                        base64: base64data,
+                        filename: `${document.getElementById('lastName').value}_${document.getElementById('firstName').value}_${document.getElementById('sClass').value}.mp3`
+                    })
+                });
+
+                // BLOQUEO TOTAL TRAS EL ENVÍO
+                setTimeout(() => {
+                    document.getElementById('submissionControls').style.display = 'none';
+                    document.getElementById('finalSuccessMessage').style.display = 'block';
+                }, 2000);
+
+            } catch (e) {
+                status.textContent = "❌ Error. Check connection and try again.";
+                status.style.color = "red";
+                driveBtn.disabled = false;
+            }
         };
     }
 </script>
