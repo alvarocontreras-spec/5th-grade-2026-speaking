@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxford Flyers - Continuous Assessment</title>
+    <title>Oxford Flyers - A2 Assessment & Drive Sync</title>
     <style>
         :root {
             --oxford-blue: #002147;
             --oxford-gold: #F39200;
             --soft-bg: #f4f7f9;
             --success: #10b981;
+            --drive-blue: #4285F4;
         }
 
         body {
@@ -21,10 +22,7 @@
             justify-content: center;
         }
 
-        .container {
-            max-width: 700px;
-            width: 100%;
-        }
+        .container { max-width: 700px; width: 100%; }
 
         .card {
             background: white;
@@ -44,11 +42,7 @@
             padding-bottom: 10px;
         }
 
-        .student-inputs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
+        .student-inputs { display: flex; gap: 10px; margin-bottom: 30px; }
 
         input {
             flex: 1;
@@ -70,17 +64,8 @@
             justify-content: center;
         }
 
-        #qNumber {
-            color: var(--oxford-gold);
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        #qText {
-            font-size: 1.4rem;
-            color: var(--oxford-blue);
-            line-height: 1.4;
-        }
+        #qNumber { color: var(--oxford-gold); font-weight: bold; margin-bottom: 10px; }
+        #qText { font-size: 1.4rem; color: var(--oxford-blue); line-height: 1.4; }
 
         .timer-box {
             font-size: 2.5rem;
@@ -108,10 +93,8 @@
         .btn-start { background: var(--oxford-blue); color: white; }
         .btn-next { background: var(--oxford-gold); color: white; display: none; }
         .btn-finish { background: #1e293b; color: white; display: none; }
-        .btn-download { background: var(--success); color: white; display: block; margin-top: 10px; }
+        .btn-drive { background: var(--drive-blue); color: white; margin-top: 10px; }
         
-        button:disabled { background: #cbd5e1; cursor: not-allowed; }
-
         /* Report Styles */
         #reportArea {
             display: none;
@@ -122,19 +105,6 @@
             border: 2px solid var(--oxford-blue);
         }
 
-        .A2-badge {
-            background: var(--success);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            float: right;
-        }
-
-        .score-row { margin: 15px 0; }
-        .progress-bg { background: #eee; height: 10px; border-radius: 5px; margin-top: 5px; }
-        .progress-fill { background: var(--oxford-blue); height: 100%; border-radius: 5px; transition: 1s; }
-
         .feedback-section {
             background: #f0f7ff;
             padding: 20px;
@@ -143,13 +113,9 @@
             border-left: 5px solid var(--oxford-blue);
         }
 
-        .feedback-section h3 { margin-top: 0; color: var(--oxford-blue); font-size: 1.1rem; }
+        .status-msg { font-size: 0.9rem; font-weight: bold; margin-top: 5px; text-align: center; }
 
-        @media print {
-            .no-print { display: none; }
-            body { background: white; padding: 0; }
-            #reportArea { display: block !important; border: none; }
-        }
+        @media print { .no-print { display: none; } #reportArea { display: block !important; border: none; } }
     </style>
 </head>
 <body>
@@ -157,131 +123,92 @@
 <div class="container">
     <div class="card no-print" id="setupUI">
         <div class="header-logo">OXFORD FLYERS (A2) ORAL TEST</div>
-        
         <div class="student-inputs">
-            <input type="text" id="sName" placeholder="Full Name">
-            <input type="text" id="sClass" placeholder="Class">
+            <input type="text" id="sName" placeholder="Student Full Name">
+            <input type="text" id="sClass" placeholder="Class (e.g. 5th A)">
         </div>
-
         <div class="question-display" id="qDisplay">
             <p id="qText">Press "Start Assessment" when you are ready to speak.</p>
         </div>
-
         <div class="timer-box" id="timer">00:00</div>
-
         <button id="startBtn" class="btn-start" onclick="initTest()">🎙️ Start Assessment</button>
         <button id="nextBtn" class="btn-next" onclick="nextQuestion()">Next Question ➡️</button>
-        <button id="finishBtn" class="btn-finish" onclick="stopAndFinish()">🏁 Finish & Stop Recording</button>
+        <button id="finishBtn" class="btn-finish" onclick="stopAndFinish()">🏁 Finish & Evaluate</button>
     </div>
 
     <div id="reportArea">
-        <div class="A2-badge">CEFR LEVEL: A2 (Flyers)</div>
         <h2 style="color: var(--oxford-blue); margin-top: 0;">Speaking Evaluation Report</h2>
-        <hr>
-        <p><strong>Candidate:</strong> <span id="repName"></span></p>
-        <p><strong>Date:</strong> <span id="repDate"></span></p>
+        <p><strong>Candidate:</strong> <span id="repName"></span> | <strong>Date:</strong> <span id="repDate"></span></p>
         
-        <div class="score-row">
-            <strong>Vocabulary & Grammar (A2.1)</strong>
-            <div class="progress-bg"><div class="progress-fill" style="width: 85%;"></div></div>
-            <small>Uses high-frequency words and basic sentence structures correctly.</small>
-        </div>
-
-        <div class="score-row">
-            <strong>Pronunciation & Fluency</strong>
-            <div class="progress-bg"><div class="progress-fill" style="width: 70%;"></div></div>
-            <small>Clear enough to be understood; may have some hesitation.</small>
-        </div>
-
         <div class="feedback-section">
-            <h3>🎯 Key A2 Indicators:</h3>
+            <h3>🎯 My English Progress (Level A2):</h3>
             <ul style="font-size: 0.95rem; padding-left: 20px; color: #334155; line-height: 1.6;">
-                <li><strong>Connectors:</strong> Uses simple linkers like <em>'and'</em>, <em>'but'</em>, <em>'because'</em>, and <em>'then'</em> to connect ideas.</li>
-                <li><strong>Full Sentences:</strong> Avoids one-word answers; use complete sentences.
-                <li><strong>Descriptive Ability:</strong> You can describe family, living conditions, and school routines in detail.</li>
-                <li><strong>Personal Interaction:</strong> You can answer questions about friends, hobbies, and personal information with confidence.</li>
+                <li><strong>🔗 Bridge Words:</strong> I use words like <b>and, but, because,</b> and <b>then</b> to connect my ideas.</li>
+                <li><strong>🗣️ Full Sentences:</strong> I try to speak in complete sentences (Who + Action + Extra Info).</li>
+                <li><strong>🏠 My World:</strong> I can talk about my home, family, and school routine with details.</li>
+                <li><strong>Friends & Fun:</strong> I can answer questions about my hobbies and weekends with confidence!</li>
             </ul>
         </div>
 
         <audio id="finalAudio" controls style="width: 100%; margin: 10px 0;"></audio>
         
-        <button id="downloadBtn" class="btn-download no-print">📥 Download Audio (MP3)</button>
-        
-        <button class="btn-start no-print" style="margin-top:20px;" onclick="window.print()">🖨️ Print Report to PDF</button>
-        <button class="btn-next no-print" style="display:block; background:#64748b;" onclick="location.reload()">Start New Session</button>
+        <div class="no-print">
+            <button id="driveBtn" class="btn-drive">📤 Save Recording to Google Drive</button>
+            <div id="status" class="status-msg"></div>
+            <button class="btn-start" style="margin-top:10px; background: #64748b;" onclick="window.print()">🖨️ Print Report to PDF</button>
+            <button class="btn-next" style="display:block; background:#e2e8f0; color: #475569;" onclick="location.reload()">Start New Session</button>
+        </div>
     </div>
 </div>
 
 <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby22GPKM2ghBv0Tkh4_FbmOKKgk5mKaSUlQrlOsT1g86BLIW24cK2qi7QNdzNwgZTF7Kg/exec";
+    
     const questions = [
         "What's your name? How old are you? Where do you live?",
+        "What is the first thing you like to do when you get out of bed?",
         "What do you like to eat for lunch?",
         "How do you go to school each day?",
         "What do you like doing after school?",
         "Who do you live with at home?",
-        "Who is your best friend and why?",
+        "Who is your best friend and why do you like them?",
         "What is your favorite room in your house?",
-        "Do you have a pet? Can you describe it?",
+        "Do you have a pet? What is it like?",
         "What do you usually do on Saturdays?",
         "What sport do you like playing?"
     ];
 
-    let currentIdx = 0;
-    let mediaRecorder;
-    let chunks = [];
-    let timerInt;
-    let seconds = 0;
+    let currentIdx = 0, mediaRecorder, chunks = [], timerInt, seconds = 0, audioBlob;
 
     async function initTest() {
-        const name = document.getElementById('sName').value;
-        if(!name) return alert("Please enter your name!");
-
+        if(!document.getElementById('sName').value) return alert("Please enter the student name!");
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
             chunks = [];
-
             mediaRecorder.ondataavailable = e => chunks.push(e.data);
-            
             mediaRecorder.onstop = () => {
-                const blob = new Blob(chunks, { type: 'audio/mpeg' });
-                const audioUrl = URL.createObjectURL(blob);
-                document.getElementById('finalAudio').src = audioUrl;
-
-                const downloadBtn = document.getElementById('downloadBtn');
-                downloadBtn.onclick = () => {
-                    const studentName = document.getElementById('sName').value || 'Student';
-                    const link = document.createElement('a');
-                    link.href = audioUrl;
-                    link.download = `${studentName.replace(/\s+/g, '_')}_A2_Oral_Test.mp3`;
-                    link.click();
-                };
+                audioBlob = new Blob(chunks, { type: 'audio/mpeg' });
+                document.getElementById('finalAudio').src = URL.createObjectURL(audioBlob);
             };
-
             mediaRecorder.start();
             document.body.classList.add('recording');
-            
             timerInt = setInterval(() => {
                 seconds++;
                 let m = Math.floor(seconds / 60).toString().padStart(2, '0');
                 let s = (seconds % 60).toString().padStart(2, '0');
                 document.getElementById('timer').textContent = `${m}:${s}`;
             }, 1000);
-
             document.getElementById('startBtn').style.display = 'none';
             document.getElementById('nextBtn').style.display = 'block';
             nextQuestion();
-
-        } catch (err) {
-            alert("Mic error: " + err);
-        }
+        } catch (err) { alert("Mic error: " + err); }
     }
 
     function nextQuestion() {
         if(currentIdx < questions.length) {
             document.getElementById('qText').innerHTML = `<span id="qNumber">Question ${currentIdx + 1} of ${questions.length}</span><br>${questions[currentIdx]}`;
             currentIdx++;
-            
             if(currentIdx === questions.length) {
                 document.getElementById('nextBtn').style.display = 'none';
                 document.getElementById('finishBtn').style.display = 'block';
@@ -290,19 +217,43 @@
     }
 
     function stopAndFinish() {
-        if (mediaRecorder && mediaRecorder.state !== "inactive") {
-            mediaRecorder.stop();
-        }
+        mediaRecorder.stop();
         clearInterval(timerInt);
-        
         document.getElementById('repName').textContent = document.getElementById('sName').value;
         document.getElementById('repDate').textContent = new Date().toLocaleDateString();
-        
         document.getElementById('setupUI').style.display = 'none';
         document.getElementById('reportArea').style.display = 'block';
-        
         mediaRecorder.stream.getTracks().forEach(t => t.stop());
     }
+
+    // FUNCIÓN PARA ENVIAR A GOOGLE DRIVE
+    document.getElementById('driveBtn').onclick = async () => {
+        const status = document.getElementById('status');
+        const name = document.getElementById('sName').value;
+        status.textContent = "⏳ Uploading... please wait.";
+        status.style.color = "orange";
+
+        const reader = new FileReader();
+        reader.readAsDataURL(audioBlob);
+        reader.onloadend = async () => {
+            const base64data = reader.result.split(',')[1];
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors", // Importante para Apps Script
+                    body: JSON.stringify({
+                        base64: base64data,
+                        filename: `${name.replace(/\s+/g, '_')}_Oxford_A2.mp3`
+                    })
+                });
+                status.textContent = "✅ Sent to Google Drive Successfully!";
+                status.style.color = "green";
+            } catch (e) {
+                status.textContent = "❌ Error sending to Drive.";
+                status.style.color = "red";
+            }
+        };
+    };
 </script>
 
 </body>
