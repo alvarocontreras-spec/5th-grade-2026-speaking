@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxford Flyers - A2 Review & Send</title>
+    <title>Oxford Flyers - A2 Assessment CSI</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -27,7 +27,7 @@
 
         .card {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             text-align: center;
@@ -37,58 +37,63 @@
         .header-logo {
             font-weight: bold;
             color: var(--oxford-blue);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 20px;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
+            text-transform: uppercase;
         }
 
-        .student-inputs { display: flex; gap: 10px; margin-bottom: 30px; }
+        /* DISEÑO DE INPUTS MEJORADO */
+        .student-inputs { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+        }
+        
+        .full-width { grid-column: span 2; }
 
         input {
-            flex: 1;
             padding: 12px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            outline: none;
         }
 
+        input:focus { border-color: var(--oxford-blue); }
+
+        /* CUADRO DE PREGUNTAS FLEXIBLE (NO SE CORTA) */
         .question-display {
-    background: #fffcf0;
-    border: 2px solid var(--oxford-gold);
-    padding: 25px;
-    border-radius: 15px;
-    margin: 20px 0;
-    
-    /* CAMBIOS AQUÍ: */
-    min-height: 140px;      /* Un poco más de espacio base */
-    height: auto;           /* Permite que crezca si el texto es largo */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;    /* Centra el texto horizontalmente */
-    overflow: visible;      /* Asegura que nada se esconda */
-}
+            background: #fffcf0;
+            border: 2px solid var(--oxford-gold);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            min-height: 140px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: visible;
+        }
 
-#qText { 
-    font-size: 1.3rem;      /* Bajamos un poco de 1.4 a 1.3 para mejor ajuste */
-    color: var(--oxford-blue); 
-    line-height: 1.5; 
-    margin: 0;
-    word-wrap: break-word;  /* Evita que palabras largas rompan el diseño */
-}
+        #qNumber { color: var(--oxford-gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 8px; }
+        #qText { font-size: 1.25rem; color: var(--oxford-blue); line-height: 1.5; margin: 0; word-wrap: break-word; }
 
+        .timer-box { font-size: 2.2rem; font-weight: bold; color: var(--danger); margin: 15px 0; display: none; }
         .recording .timer-box { display: block; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.5; } }
 
         button {
-            padding: 15px 30px;
+            padding: 15px;
             border-radius: 12px;
             border: none;
             font-weight: bold;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
             width: 100%;
             margin-bottom: 10px;
         }
@@ -97,35 +102,34 @@
         .btn-next { background: var(--oxford-gold); color: white; display: none; }
         .btn-finish { background: #1e293b; color: white; display: none; }
         .btn-drive { background: var(--drive-blue); color: white; margin-top: 10px; }
-        .btn-retry { background: var(--danger); color: white; margin-top: 5px; }
+        .btn-retry { background: var(--danger); color: white; font-size: 0.9rem; padding: 10px; }
         
         #reportArea {
             display: none;
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
-            text-align: left;
             border: 2px solid var(--oxford-blue);
         }
-
-        .feedback-section {
-            background: #f0f7ff;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid var(--oxford-blue);
-        }
-
-        .status-msg { font-size: 0.9rem; font-weight: bold; margin-top: 5px; text-align: center; }
 
         .review-box {
             background: #f8fafc;
             border: 2px dashed #cbd5e1;
             padding: 15px;
             border-radius: 12px;
-            margin: 15px 0;
+            margin-bottom: 20px;
             text-align: center;
         }
+
+        .feedback-section {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid var(--oxford-blue);
+        }
+
+        .status-msg { font-size: 0.9rem; font-weight: bold; text-align: center; }
 
         @media print { .no-print { display: none; } #reportArea { display: block !important; border: none; } }
     </style>
@@ -134,47 +138,49 @@
 
 <div class="container">
     <div class="card no-print" id="setupUI">
-        <div class="header-logo">SPEAKING TASK II</div>
+        <div class="header-logo">Oxford Oral Assessment</div>
+        
         <div class="student-inputs">
-            <input type="text" id="sName" placeholder="Student Full Name">
-            <input type="text" id="sClass" placeholder="Class (e.g. 5th A)">
+            <input type="text" id="firstName" placeholder="First Name">
+            <input type="text" id="lastName" placeholder="Last Name">
+            <input type="text" id="sClass" class="full-width" placeholder="Class (e.g. 5th A)">
         </div>
-        <div class="question-display" id="qDisplay">
-            <p id="qText">Press "Start Assessment" to begin.</p>
+
+        <div class="question-display">
+            <div id="qNumber">READY?</div>
+            <p id="qText">Please enter your details to begin.</p>
         </div>
+
         <div class="timer-box" id="timer">00:00</div>
+        
         <button id="startBtn" class="btn-start" onclick="initTest()">🎙️ Start Assessment</button>
         <button id="nextBtn" class="btn-next" onclick="nextQuestion()">Next Question ➡️</button>
         <button id="finishBtn" class="btn-finish" onclick="stopAndFinish()">🏁 Finish & Review</button>
     </div>
 
     <div id="reportArea">
-        <h2 style="color: var(--oxford-blue); margin-top: 0;">Speaking Evaluation Report</h2>
-        <p><strong>Candidate:</strong> <span id="repName"></span> | <strong>Date:</strong> <span id="repDate"></span></p>
+        <h2 style="color: var(--oxford-blue); margin-top: 0;">Evaluation Report</h2>
+        <p><strong>Student:</strong> <span id="repName"></span> | <strong>Class:</strong> <span id="repClass"></span></p>
         
         <div class="review-box no-print">
-            <p style="margin-top:0; color: var(--oxford-blue); font-weight: bold;">🎧 Step 1: Listen to your recording</p>
+            <p style="margin-top:0; color: var(--oxford-blue); font-weight: bold;">🎧 Listen to your recording:</p>
             <audio id="finalAudio" controls style="width: 100%; margin-bottom: 10px;"></audio>
-            <p style="font-size: 0.85rem; color: #64748b;">Not happy? You can try again before sending.</p>
-            <button class="btn-retry" onclick="retryTest()">🔄 Record Again (Delete current)</button>
+            <button class="btn-retry" onclick="retryTest()">🔄 Record Again</button>
         </div>
 
         <div class="feedback-section">
-            <h3>🎯 My English Progress (Level A2):</h3>
-            <ul style="font-size: 0.95rem; padding-left: 20px; color: #334155; line-height: 1.6;">
-                <li><strong>🔗 Bridge Words:</strong> I use words like <b>and, but, because,</b> and <b>then</b> to connect my ideas.</li>
-                <li><strong>🗣️ Full Power Sentences:</strong> I avoid saying just "Yes" or "No". I speak in complete sentences.</li>
-                <li><strong>🏠 My World:</strong> I can describe my home, family, and school routine with details.</li>
-                <li><strong>Friends & Fun:</strong> I can answer questions about my best friends and hobbies with confidence!</li>
+            <h3 style="margin-top:0">🎯 My Progress (A2):</h3>
+            <ul style="font-size: 0.9rem; color: #334155; padding-left: 20px;">
+                <li>I connect ideas using <b>and, but, because.</b></li>
+                <li>I speak in <b>complete sentences.</b></li>
+                <li>I can describe my <b>home and school.</b></li>
             </ul>
         </div>
 
         <div class="no-print">
-            <p style="color: var(--oxford-blue); font-weight: bold;">📤 Step 2: Send to Teacher</p>
-            <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">Save Recording to Google Drive</button>
+            <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">📤 Send to Teacher</button>
             <div id="status" class="status-msg"></div>
-            <hr>
-            <button class="btn-start" style="background: #64748b;" onclick="window.print()">🖨️ Print Report to PDF</button>
+            <button style="background: #64748b; color:white; font-size: 0.9rem;" onclick="window.print()">🖨️ Save as PDF</button>
         </div>
     </div>
 </div>
@@ -182,11 +188,26 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYJh8YRfdxdqwCo4cnU6hVUsWu4NnwJQtPV5yeVtUn-CCytM7uN8L8Ts78QLBKqqWPvA/exec";
     
-    const questions = ["Name & Age?", "First thing after bed?", "Lunch?", "How to school?", "After school?", "Home mates?", "Best friend?", "Fav room?", "Pets?", "Saturdays?", "Fav sport?"];
+    const questions = [
+        "What's your name and how old are you?",
+        "What is the first thing you like to do when you get out of bed?",
+        "What do you like to eat for lunch?",
+        "How do you go to school each day?",
+        "What do you like doing after school?",
+        "Who do you live with at home?",
+        "Who is your best friend and why do you like them?",
+        "What is your favorite room in your house?",
+        "Do you have a pet? What is it like?",
+        "What do you usually do on Saturdays?",
+        "What sport do you like playing?"
+    ];
+
     let currentIdx = 0, mediaRecorder, chunks = [], timerInt, seconds = 0, audioBlob;
 
     async function initTest() {
-        if(!document.getElementById('sName').value) return alert("Please enter the student name!");
+        if(!document.getElementById('firstName').value || !document.getElementById('lastName').value) {
+            return alert("Please enter both First and Last Name!");
+        }
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
@@ -200,8 +221,8 @@
             document.body.classList.add('recording');
             timerInt = setInterval(() => {
                 seconds++;
-                let m = Math.floor(seconds / 60).toString().padStart(2, '0');
-                let s = (seconds % 60).toString().padStart(2, '0');
+                let m = Math.floor(seconds/60).toString().padStart(2,'0');
+                let s = (seconds%60).toString().padStart(2,'0');
                 document.getElementById('timer').textContent = `${m}:${s}`;
             }, 1000);
             document.getElementById('startBtn').style.display = 'none';
@@ -212,7 +233,8 @@
 
     function nextQuestion() {
         if(currentIdx < questions.length) {
-            document.getElementById('qText').innerHTML = `<span id="qNumber">Question ${currentIdx + 1} of ${questions.length}</span><br>${questions[currentIdx]}`;
+            document.getElementById('qNumber').textContent = `QUESTION ${currentIdx + 1} OF ${questions.length}`;
+            document.getElementById('qText').textContent = questions[currentIdx];
             currentIdx++;
             if(currentIdx === questions.length) {
                 document.getElementById('nextBtn').style.display = 'none';
@@ -224,69 +246,54 @@
     function stopAndFinish() {
         mediaRecorder.stop();
         clearInterval(timerInt);
-        document.getElementById('repName').textContent = document.getElementById('sName').value;
-        document.getElementById('repDate').textContent = new Date().toLocaleDateString();
+        const fullName = `${document.getElementById('lastName').value}, ${document.getElementById('firstName').value}`;
+        document.getElementById('repName').textContent = fullName;
+        document.getElementById('repClass').textContent = document.getElementById('sClass').value;
         document.getElementById('setupUI').style.display = 'none';
         document.getElementById('reportArea').style.display = 'block';
         if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t => t.stop());
     }
 
-    // NUEVA FUNCIÓN: REINTENTAR
     function retryTest() {
-        if(confirm("Are you sure? This will delete your current recording and start a new test.")) {
-            // Resetear variables
-            currentIdx = 0;
-            seconds = 0;
-            chunks = [];
-            audioBlob = null;
-            document.getElementById('timer').textContent = "00:00";
-            
-            // Volver a la pantalla inicial
+        if(confirm("Start again? Current recording will be deleted.")) {
+            currentIdx = 0; seconds = 0; chunks = [];
             document.getElementById('reportArea').style.display = 'none';
             document.getElementById('setupUI').style.display = 'block';
             document.getElementById('startBtn').style.display = 'block';
             document.getElementById('finishBtn').style.display = 'none';
-            document.getElementById('status').textContent = "";
-            document.getElementById('qText').textContent = "Press 'Start Assessment' to begin.";
+            document.getElementById('timer').textContent = "00:00";
             document.body.classList.remove('recording');
         }
     }
 
     async function uploadToDrive() {
         const status = document.getElementById('status');
-        const name = document.getElementById('sName').value;
-        if (!audioBlob) return alert("No recording found!");
-
-        status.textContent = "⏳ Uploading to CSI Drive... please wait.";
+        const fName = document.getElementById('firstName').value;
+        const lName = document.getElementById('lastName').value;
+        const sClass = document.getElementById('sClass').value;
+        
+        status.textContent = "⏳ Sending to teacher...";
         status.style.color = "orange";
 
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
         reader.onloadend = async () => {
             const base64data = reader.result.split(',')[1];
-            try {
-                fetch(SCRIPT_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "text/plain" },
-                    body: JSON.stringify({
-                        base64: base64data,
-                        filename: `${name.replace(/\s+/g, '_')}_Oxford_A2.mp3`
-                    })
-                });
-                
-                setTimeout(() => {
-                    status.textContent = "✅ Successfully saved in Google Drive!";
-                    status.style.color = "green";
-                    document.getElementById('driveBtn').disabled = true; // Evitar doble envío
-                }, 2000);
-            } catch (e) {
-                status.textContent = "❌ Error uploading.";
-                status.style.color = "red";
-            }
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify({
+                    base64: base64data,
+                    filename: `${lName}_${fName}_${sClass}.mp3`
+                })
+            });
+            setTimeout(() => {
+                status.textContent = "✅ Sent successfully!";
+                status.style.color = "green";
+                document.getElementById('driveBtn').disabled = true;
+            }, 2000);
         };
     }
 </script>
-
 </body>
 </html>
