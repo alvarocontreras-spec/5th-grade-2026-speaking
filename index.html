@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxford Flyers - A2 Assessment & Drive Sync</title>
+    <title>Oxford Flyers - A2 Assessment (CSI)</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -95,7 +95,6 @@
         .btn-finish { background: #1e293b; color: white; display: none; }
         .btn-drive { background: var(--drive-blue); color: white; margin-top: 10px; }
         
-        /* Report Styles */
         #reportArea {
             display: none;
             background: white;
@@ -128,7 +127,7 @@
             <input type="text" id="sClass" placeholder="Class (e.g. 5th A)">
         </div>
         <div class="question-display" id="qDisplay">
-            <p id="qText">Press "Start Assessment" when you are ready to speak.</p>
+            <p id="qText">Press "Start Assessment" to begin.</p>
         </div>
         <div class="timer-box" id="timer">00:00</div>
         <button id="startBtn" class="btn-start" onclick="initTest()">🎙️ Start Assessment</button>
@@ -143,10 +142,10 @@
         <div class="feedback-section">
             <h3>🎯 My English Progress (Level A2):</h3>
             <ul style="font-size: 0.95rem; padding-left: 20px; color: #334155; line-height: 1.6;">
-                <li><strong>🔗 Bridge Words:</strong> I use words like <b>and, but, because,</b> and <b>then</b> to connect my ideas.</li>
-                <li><strong>🗣️ Full Sentences:</strong> I try to speak in complete sentences (Who + Action + Extra Info).</li>
-                <li><strong>🏠 My World:</strong> I can talk about my home, family, and school routine with details.</li>
-                <li><strong>Friends & Fun:</strong> I can answer questions about my hobbies and weekends with confidence!</li>
+                <li><strong>🔗 Bridge Words:</strong> I use words like <b>and, but, because,</b> and <b>then</b> to connect my ideas and make my stories longer.</li>
+                <li><strong>🗣️ Full Power Sentences:</strong> I avoid saying just "Yes" or "No". I speak in complete sentences (Who + Action + Extra Info).</li>
+                <li><strong>🏠 My World:</strong> I can describe my home, my family, and my daily school routine with lots of details.</li>
+                <li><strong>Friends & Fun:</strong> I can answer questions about my best friends and my favorite hobbies with confidence!</li>
             </ul>
         </div>
 
@@ -162,7 +161,8 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby22GPKM2ghBv0Tkh4_FbmOKKgk5mKaSUlQrlOsT1g86BLIW24cK2qi7QNdzNwgZTF7Kg/exec";
+    // URL de tu Apps Script del Colegio San Ignacio
+    const SCRIPT_URL = "https://script.google.com/a/macros/colegiosanignacio.cl/s/AKfycbzyapSa7VcwTv-YwfZo-j3RSpORHGEgKOstbr9bIRwqkH5v1lQcQ4oyU3aL5aVUbYyYLw/exec";
     
     const questions = [
         "What's your name? How old are you? Where do you live?",
@@ -226,11 +226,11 @@
         mediaRecorder.stream.getTracks().forEach(t => t.stop());
     }
 
-    // FUNCIÓN PARA ENVIAR A GOOGLE DRIVE
+    // ENVÍO A GOOGLE DRIVE DEL COLEGIO
     document.getElementById('driveBtn').onclick = async () => {
         const status = document.getElementById('status');
         const name = document.getElementById('sName').value;
-        status.textContent = "⏳ Uploading... please wait.";
+        status.textContent = "⏳ Uploading to CSI Drive... please wait.";
         status.style.color = "orange";
 
         const reader = new FileReader();
@@ -238,18 +238,20 @@
         reader.onloadend = async () => {
             const base64data = reader.result.split(',')[1];
             try {
+                // Usamos POST con el formato JSON que espera el script
                 await fetch(SCRIPT_URL, {
                     method: "POST",
-                    mode: "no-cors", // Importante para Apps Script
+                    mode: "no-cors", 
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         base64: base64data,
-                        filename: `${name.replace(/\s+/g, '_')}_Oxford_A2.mp3`
+                        filename: `${name.replace(/\s+/g, '_')}_A2_Oral_Test.mp3`
                     })
                 });
-                status.textContent = "✅ Sent to Google Drive Successfully!";
+                status.textContent = "✅ Successfully saved in Google Drive!";
                 status.style.color = "green";
             } catch (e) {
-                status.textContent = "❌ Error sending to Drive.";
+                status.textContent = "❌ Error uploading to Drive.";
                 status.style.color = "red";
             }
         };
