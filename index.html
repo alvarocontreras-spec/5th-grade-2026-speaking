@@ -47,7 +47,7 @@
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 12px; 
-            margin-bottom: 25px; 
+            margin-bottom: 20px; 
         }
         
         .full-width { grid-column: span 2; }
@@ -58,10 +58,19 @@
             border-radius: 10px;
             font-size: 1rem;
             outline: none;
-            transition: 0.3s;
         }
 
-        input:focus { border-color: var(--oxford-blue); }
+        /* CAJA DE PREPARACIÓN AL INICIO */
+        .prep-box {
+            background: #f0f4f8;
+            border: 1px solid #cbd5e1;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .prep-box h3 { margin-top: 0; color: var(--oxford-blue); font-size: 1rem; }
+        .prep-box ol { font-size: 0.85rem; color: #475569; padding-left: 20px; margin-bottom: 0; }
 
         .question-display {
             background: #fffcf0;
@@ -98,15 +107,9 @@
         .btn-next { background: var(--oxford-gold); color: white; display: none; }
         .btn-finish { background: #1e293b; color: white; display: none; }
         .btn-drive { background: var(--drive-blue); color: white; margin-top: 15px; }
-        .btn-retry { background: var(--danger); color: white; font-size: 0.9rem; margin-top: 10px; }
+        .btn-retry { background: var(--danger); color: white; font-size: 0.9rem; }
 
-        /* BLOQUEO FINAL */
-        #finalSuccessMessage {
-            display: none;
-            padding: 20px;
-            text-align: center;
-        }
-        
+        #finalSuccessMessage { display: none; padding: 20px; text-align: center; }
         .icon-check { font-size: 5rem; color: var(--success); margin-bottom: 15px; }
 
         @media print { .no-print { display: none; } #reportArea { display: block !important; border: none; box-shadow: none; } }
@@ -124,9 +127,27 @@
             <input type="text" id="sClass" class="full-width" placeholder="Class (e.g. 5th A)">
         </div>
 
-        <div class="question-display">
-            <div id="qNumber">Ready to start?</div>
-            <p id="qText">Complete your details above.</p>
+        <div class="prep-box" id="prepBox">
+            <h3>📖 Preparation:</h3>
+            <p style="font-size: 0.8rem; margin-top: -10px;">Read the questions before starting the recording.</p>
+            <ol>
+                <li>What's your name and how old are you?</li>
+                <li>What time do you usually wake up?</li>
+                <li>What do you like to eat for lunch?</li>
+                <li>How do you go to school every day?</li>
+                <li>What do you like to do after school?</li>
+                <li>Who do you live with?</li>
+                <li>What is your favorite subject?</li>
+                <li>Do you have a pet? What is its name?</li>
+                <li>What do you usually do on Saturdays?</li>
+                <li>What's your favourite sport?</li>
+                <li>What time do you usually go to bed?</li>
+            </ol>
+        </div>
+
+        <div class="question-display" id="qDisplay" style="display: none;">
+            <div id="qNumber">RECORDING...</div>
+            <p id="qText"></p>
         </div>
 
         <div class="timer-box" id="timer">00:00</div>
@@ -149,7 +170,6 @@
             </div>
 
             <div class="no-print">
-                <p style="color: var(--oxford-blue); font-weight: bold;">📤 Step 2: Final Step</p>
                 <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">Confirm & Send to Teacher</button>
                 <div id="status" style="font-weight: bold; margin-top: 10px;"></div>
             </div>
@@ -158,9 +178,8 @@
         <div id="finalSuccessMessage">
             <div class="icon-check">✓</div>
             <h2 style="color: var(--oxford-blue); margin-bottom: 10px;">ORAL TASK II COMPLETED</h2>
-            <p style="font-size: 1.2rem; color: #475569;">Your assessment has been sent successfully.</p>
-            <p style="color: #64748b; margin-bottom: 30px;">Great job! You can now close this window.</p>
-            <button style="background: #64748b; color:white; width: auto; padding: 12px 30px;" onclick="window.print()">🖨️ Print/Save Report</button>
+            <p style="font-size: 1.2rem; color: #475569;">Assessment sent successfully.</p>
+            <button style="background: #64748b; color:white; width: auto; padding: 12px 30px;" onclick="window.print()">🖨️ Save Report</button>
         </div>
     </div>
 </div>
@@ -170,23 +189,23 @@
     
     const questions = [
         "What's your name and how old are you?",
-        "What is the first thing you like to do when you get out of bed?",
+        "What time do you usually wake up?",
         "What do you like to eat for lunch?",
-        "How do you go to school each day?",
-        "What do you like doing after school?",
-        "Who do you live with at home?",
-        "Who is your best friend and why do you like them?",
-        "What is your favorite room in your house?",
-        "Do you have a pet? What is it like?",
+        "How do you go to school every day?",
+        "What do you like to do after school?",
+        "Who do you live with?",
+        "What is your favorite subject?",
+        "Do you have a pet? What is its name?",
         "What do you usually do on Saturdays?",
-        "What sport do you like playing?"
+        "What's your favourite sport?",
+        "What time do you usually go to bed?"
     ];
 
     let currentIdx = 0, mediaRecorder, chunks = [], timerInt, seconds = 0, audioBlob;
 
     async function initTest() {
         if(!document.getElementById('firstName').value || !document.getElementById('lastName').value) {
-            return alert("Please enter your name and last name!");
+            return alert("Please enter your First and Last Name!");
         }
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -199,15 +218,19 @@
             };
             mediaRecorder.start();
             document.body.classList.add('recording');
+            document.getElementById('prepBox').style.display = 'none';
+            document.getElementById('qDisplay').style.display = 'flex';
+            
             timerInt = setInterval(() => {
                 seconds++;
                 let m = Math.floor(seconds/60).toString().padStart(2,'0'), s = (seconds%60).toString().padStart(2,'0');
                 document.getElementById('timer').textContent = `${m}:${s}`;
             }, 1000);
+            
             document.getElementById('startBtn').style.display = 'none';
             document.getElementById('nextBtn').style.display = 'block';
             nextQuestion();
-        } catch (err) { alert("Mic error: Please allow microphone access."); }
+        } catch (err) { alert("Mic error: Please allow access to record."); }
     }
 
     function nextQuestion() {
@@ -232,24 +255,18 @@
     }
 
     function retryTest() {
-        if(confirm("Are you sure you want to delete this recording and start over?")) {
-            currentIdx = 0; seconds = 0; chunks = [];
-            document.getElementById('reportArea').style.display = 'none';
-            document.getElementById('setupUI').style.display = 'block';
-            document.getElementById('startBtn').style.display = 'block';
-            document.getElementById('finishBtn').style.display = 'none';
-            document.getElementById('timer').textContent = "00:00";
-            document.body.classList.remove('recording');
+        if(confirm("Delete current recording and start again?")) {
+            location.reload();
         }
     }
 
     async function uploadToDrive() {
-        const status = document.getElementById('status');
         const driveBtn = document.getElementById('driveBtn');
-        
+        const retryBtn = document.getElementById('retryBtn');
         driveBtn.disabled = true;
-        status.textContent = "⏳ Sending to teacher... do not close the window.";
-        status.style.color = "orange";
+        retryBtn.style.display = 'none';
+        document.getElementById('status').textContent = "⏳ Sending to Drive...";
+        document.getElementById('status').style.color = "orange";
 
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
@@ -264,17 +281,14 @@
                         filename: `${document.getElementById('lastName').value}_${document.getElementById('firstName').value}_${document.getElementById('sClass').value}.mp3`
                     })
                 });
-
-                // BLOQUEO TOTAL TRAS EL ENVÍO
                 setTimeout(() => {
                     document.getElementById('submissionControls').style.display = 'none';
                     document.getElementById('finalSuccessMessage').style.display = 'block';
                 }, 2000);
-
             } catch (e) {
-                status.textContent = "❌ Error. Check connection and try again.";
-                status.style.color = "red";
+                alert("Upload error. Please try again.");
                 driveBtn.disabled = false;
+                retryBtn.style.display = 'block';
             }
         };
     }
