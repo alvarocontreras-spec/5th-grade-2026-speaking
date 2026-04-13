@@ -23,7 +23,7 @@
             justify-content: center;
         }
 
-        .container { max-width: 700px; width: 100%; }
+        .container { max-width: 750px; width: 100%; }
 
         .card {
             background: white;
@@ -38,39 +38,44 @@
             font-weight: bold;
             color: var(--oxford-blue);
             font-size: 1.6rem;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
 
+        /* SELECTS STYLE */
         .student-inputs { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            display: flex;
+            flex-direction: column;
             gap: 12px; 
             margin-bottom: 20px; 
+            text-align: left;
         }
-        
-        .full-width { grid-column: span 2; }
 
-        input {
-            padding: 14px;
+        label { font-weight: bold; color: var(--oxford-blue); font-size: 0.9rem; }
+
+        select {
+            padding: 12px;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
             font-size: 1rem;
+            width: 100%;
             outline: none;
+            background-color: white;
         }
 
-        /* CAJA DE PREPARACIÓN AL INICIO */
+        select:focus { border-color: var(--oxford-blue); }
+
         .prep-box {
             background: #f0f4f8;
             border: 1px solid #cbd5e1;
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             text-align: left;
             margin-bottom: 20px;
         }
         .prep-box h3 { margin-top: 0; color: var(--oxford-blue); font-size: 1rem; }
-        .prep-box ol { font-size: 0.85rem; color: #475569; padding-left: 20px; margin-bottom: 0; }
+        .prep-box ol { font-size: 0.85rem; color: #475569; padding-left: 20px; margin-bottom: 0; columns: 2; }
 
         .question-display {
             background: #fffcf0;
@@ -107,7 +112,6 @@
         .btn-next { background: var(--oxford-gold); color: white; display: none; }
         .btn-finish { background: #1e293b; color: white; display: none; }
         .btn-drive { background: var(--drive-blue); color: white; margin-top: 15px; }
-        .btn-retry { background: var(--danger); color: white; font-size: 0.9rem; }
 
         #finalSuccessMessage { display: none; padding: 20px; text-align: center; }
         .icon-check { font-size: 5rem; color: var(--success); margin-bottom: 15px; }
@@ -122,26 +126,37 @@
         <div class="header-logo">ORAL TASK II</div>
         
         <div class="student-inputs">
-            <input type="text" id="firstName" placeholder="First Name">
-            <input type="text" id="lastName" placeholder="Last Name">
-            <input type="text" id="sClass" class="full-width" placeholder="Class (e.g. 5th A)">
+            <div>
+                <label>1. Select your Class:</label>
+                <select id="sClass" onchange="updateStudentList()">
+                    <option value="">-- Choose Class --</option>
+                    <option value="5thA">5th A</option>
+                    <option value="5thB">5th B</option>
+                    <option value="5thC">5th C</option>
+                </select>
+            </div>
+            <div>
+                <label>2. Select your Name:</label>
+                <select id="sName" disabled>
+                    <option value="">-- Select Class First --</option>
+                </select>
+            </div>
         </div>
 
         <div class="prep-box" id="prepBox">
-            <h3>📖 Preparation:</h3>
-            <p style="font-size: 0.8rem; margin-top: -10px;">Read the questions before starting the recording.</p>
+            <h3>📖 Preparation (Questions):</h3>
             <ol>
-                <li>What's your name and how old are you?</li>
-                <li>What time do you usually wake up?</li>
-                <li>What do you like to eat for lunch?</li>
-                <li>How do you go to school every day?</li>
-                <li>What do you like to do after school?</li>
+                <li>Name & Age?</li>
+                <li>Wake up time?</li>
+                <li>Lunch?</li>
+                <li>How to school?</li>
+                <li>After school?</li>
                 <li>Who do you live with?</li>
-                <li>What is your favorite subject?</li>
-                <li>Do you have a pet? What is its name?</li>
-                <li>What do you usually do on Saturdays?</li>
-                <li>What's your favourite sport?</li>
-                <li>What time do you usually go to bed?</li>
+                <li>Fav. Subject?</li>
+                <li>Pets?</li>
+                <li>Saturdays?</li>
+                <li>Fav. Sport?</li>
+                <li>Bed time?</li>
             </ol>
         </div>
 
@@ -159,34 +174,38 @@
 
     <div id="reportArea" class="card" style="display:none;">
         <div id="submissionControls">
-            <h2 style="color: var(--oxford-blue); margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">Evaluation Report</h2>
+            <h2 style="color: var(--oxford-blue); margin-top: 0;">Evaluation Report</h2>
             <p style="text-align: left;"><strong>Student:</strong> <span id="repName"></span></p>
             <p style="text-align: left;"><strong>Class:</strong> <span id="repClass"></span></p>
             
             <div class="no-print" style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; margin: 20px 0;">
-                <p style="margin-top:0; color: var(--oxford-blue); font-weight: bold;">🎧 Step 1: Review your audio</p>
+                <p style="color: var(--oxford-blue); font-weight: bold;">🎧 Listen to your audio</p>
                 <audio id="finalAudio" controls style="width: 100%; margin-bottom: 10px;"></audio>
-                <button id="retryBtn" class="btn-retry" onclick="retryTest()">🔄 Delete & Record Again</button>
+                <button class="btn-retry" style="background:var(--danger); color:white;" onclick="location.reload()">🔄 Delete & Restart</button>
             </div>
 
-            <div class="no-print">
-                <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">Confirm & Send to Teacher</button>
-                <div id="status" style="font-weight: bold; margin-top: 10px;"></div>
-            </div>
+            <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">Confirm & Send to Teacher</button>
+            <div id="status" style="font-weight: bold; margin-top: 10px;"></div>
         </div>
 
         <div id="finalSuccessMessage">
             <div class="icon-check">✓</div>
-            <h2 style="color: var(--oxford-blue); margin-bottom: 10px;">ORAL TASK II COMPLETED</h2>
-            <p style="font-size: 1.2rem; color: #475569;">Assessment sent successfully.</p>
-            <button style="background: #64748b; color:white; width: auto; padding: 12px 30px;" onclick="window.print()">🖨️ Save Report</button>
+            <h2 style="color: var(--oxford-blue);">TASK COMPLETED</h2>
+            <p>Assessment sent successfully.</p>
+            <button style="background: #64748b; color:white; width: auto; padding: 12px 30px;" onclick="window.print()">🖨️ Save PDF</button>
         </div>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYJh8YRfdxdqwCo4cnU6hVUsWu4NnwJQtPV5yeVtUn-CCytM7uN8L8Ts78QLBKqqWPvA/exec";
-    
+    const SCRIPT_URL = "TU_URL_AQUI"; // RECUERDA PEGAR TU URL DE GOOGLE SCRIPT
+
+    const students = {
+        "5thA": ["ARANEDA SEPÚLVEDA MATÍAS SANTIAGO", "AYALA OLIVARES MÁXIMO ALONSO", "CAMPUSANO PÉREZ ISIDORA MONTSERRAT", "CANESSA VEGA BERNARDO FRANCISCO", "CARRASCO RAMÍREZ JAVIERA PAZ", "CHAMORRO SAN MARTÍN SEBASTIÁN FRANCISCO", "CORREA LEAL SANTIAGO LEÓN", "CUKIC LUENGO BRUNO EDUARDO", "ESPINOZA OLIVARES LUCAS ALEJANDRO", "FERNÁNDEZ ESCOBAR MARTÍN FELIPE", "FERNÁNDEZ RODRIGUEZ FERNANDA NICOLE", "GARNIER VELÁSQUEZ MAXIMILIANO LORENZO", "GARZON MACUER AMANDA SOFÍA", "GONZÁLEZ ARRIAGADA SOFÍA ISIDORA", "IBARRA BARRAZA DOMINGA PAZ", "JARAMILLO CANALES JULIETA ANTONIA", "JIMÉNEZ MONSALVES FERNANDA PAZ", "MACUADA GONZÁLEZ TOMÁS ALONSO", "MEZA MISTO FRANCISCA IGNACIA", "MUÑOZ OLIVOS SOFÍA ANTONIA", "NECULQUEO MURA JAVIER MATIAS", "OSORIO MUÑOZ LUCIANO", "PARRA ALIAGA AGUSTÍN CLEMENTE LEÓN", "RIQUELME CONTRERAS JULIETA ISADORA", "SALINAS SAAVEDRA EMILIANO IGNACIO", "SÁNCHEZ MORAGA NICOLÁS ARTURO", "SEISDEDOS CARVAJAL ANGELA GUADALUPE", "SEREY VALDES RENATO CLEMENTE", "SEYMOUR REYES TRINIDAD EMILIA", "VALLEJOS NAVARRO JOSEFA AGUSTINA", "VELOSO MUÑOZ ISABELLA AMARAL", "VERGARA FUENZALIDA JOAQUÍN IGNACIO", "VERGARA MARÍN DAMIÁN ALONSO", "VINES ZÚÑIGA DAMIÁN ALBERTO", "ZURITA BUSTOS ANTONIA INÉS"],
+        "5thB": ["ACUÑA ALARCÓN DOMINGO", "AGUILAR MENARES VALENTÍN IGNACIO", "ALLENDE GARAY ALFONSO ERNESTO", "ARA CAMPUSANO VALENTINA ANTONIA", "ARAYA ESCALONA JOSE MANUEL", "ÁVILA RAMÍREZ AMANDA", "BOBADILLA PONCE VICENTE IGNACIO", "CASTILLO CARVAJAL TRINIDAD PAZ", "CONTRERAS RAMOS AMANDA BELÉN", "DÍAZ CORTÉS NICOLÁS IGNACIO", "DURÁN FREZ FLORENCIA CATALINA", "FARÍAS VALENZUELA REBECCA ESPERANZA", "GARRIDO DONOSO AMANDA", "GÓMEZ BURGOS ROSARIO BELÉN", "GONZÁLEZ ESPINOZA ARANTZA MICAELA", "HOLZMANN CÁRCAMO ANTONIA IGNACIA", "LAZO DÍAZ RENATA ANDREA", "LÓPEZ OJEDA AGUSTÍN SANTIAGO", "MENESES MADARIAGA GASPAR BAUTISTA", "MORAGA MARTINEZ VICTORIA ESPERANZA", "MOSQUEIRA VALDIVIA CAMILO ANDRÉS", "ORMEÑO LACHR PEDRO JOAQUIN", "OSORNO ARRIAGADA AMANDA MARIANNE", "PARRA PIMENTEL CONSUELO EMILIA", "REYES MARCHANT EMILIANO BAUTISTA", "RIVERA SAAVEDRA DIEGO ANDRÉS", "ROMÁN PEÑA GUSTAVO EMILIO", "RUIZ GARCÍA SANTIAGO ALONSO", "RUZ REYES MATÍAS ALEJANDRO", "SARRIA ASTUDILLO EVA MAGDALENA", "TRUJILLO BURGOS SANTIAGO ALONSO", "URQUEJO CHACANO RAFAELA", "VALENZUELA GONZÁLEZ JOSÉ MIGUEL", "VÁSQUEZ TAPIA SOFÍA ANTONIA", "VILLANUEVA SIMON GASPAR ALBERTO", "ZAMORA TORRES FACUNDO AGUSTÍN"],
+        "5thC": ["ABURTO FUENTEALBA IGNACIO ANDRÉS", "AGUILA MOSCOSO LÍA ISABELLA", "ALBORNOZ IBARRA LAURA ALEJANDRA", "ALEGRÍA RAMÍREZ JAVIERA IGNACIA", "APIOLAZA SCACCHI DIEGO ALEJANDRO", "BRANTE CATAFAU RAFAEL BAUTISTA", "BRUNAUD GALLARDO MARIA FERNANDA", "CADIU MELLA MAXIMILIANO IGNACIO", "CANTO MORAGA FELIPE", "CASTILLO MORALES VICENTE SALVADOR", "CASTRO CEPEDA RENATO", "CAVIERES PASMIÑO ROSARIO ISABEL", "CEPEDA PEDREROS CAMILO IGNACIO", "CONTRERAS CÁRDENAS JOSEFA IGNACIA", "CERDA OSSES RAFAEL ORLANDO", "CORTÉS JARA EMMA VALENTINA", "FECCI DUARTE GASPAR OLIVER", "FERNÁNDEZ SALINAS RAFAELA ANHAIS", "GARCÍA ANDRADE MAITE CELESTE", "GONZÁLEZ HERNÁNDEZ AGUSTINA PAZ", "GONZÁLEZ YÁÑEZ LUCIANO ALONSO", "HENRÍQUEZ LÓPEZ ANTONIO MIGUEL", "MORALES MORIS BERNARDO LEON", "MUÑOZ LEÓN MATILDE IGNACIA", "PAVEZ KNUST PEDRO ENRIQUE", "PIZARRO PAREDES ALONSO GABRIEL", "QUINTEROS MONDIGLIO LEONOR IGNACIA", "QUIROZ PÉREZ RAMIRO AGUSTÍN", "REYES BICHARA FRANCO FARID", "REYES CAÑAS JOAQUÍN ALEJANDRO", "RIQUELME ZÚÑIGA ISIDORA PAZ", "SALAZAR BELMAR AGUSTÍN ALONSO", "SANTOS ALVAREZ MIA SOPHIA", "TOBAR GONZÁLEZ FLORENCIA AYLIN", "VALENZUELA GONZÁLEZ GABRIEL IGNACIO", "VALLE FUENTES ELISA"]
+    };
+
     const questions = [
         "What's your name and how old are you?",
         "What time do you usually wake up?",
@@ -203,10 +222,29 @@
 
     let currentIdx = 0, mediaRecorder, chunks = [], timerInt, seconds = 0, audioBlob;
 
-    async function initTest() {
-        if(!document.getElementById('firstName').value || !document.getElementById('lastName').value) {
-            return alert("Please enter your First and Last Name!");
+    function updateStudentList() {
+        const classSelect = document.getElementById('sClass');
+        const nameSelect = document.getElementById('sName');
+        const selectedClass = classSelect.value;
+        
+        nameSelect.innerHTML = '<option value="">-- Select your Name --</option>';
+        if (selectedClass) {
+            students[selectedClass].forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.textContent = name;
+                nameSelect.appendChild(opt);
+            });
+            nameSelect.disabled = false;
+        } else {
+            nameSelect.disabled = true;
         }
+    }
+
+    async function initTest() {
+        const name = document.getElementById('sName').value;
+        if(!name) return alert("Please select your name!");
+        
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
@@ -230,7 +268,7 @@
             document.getElementById('startBtn').style.display = 'none';
             document.getElementById('nextBtn').style.display = 'block';
             nextQuestion();
-        } catch (err) { alert("Mic error: Please allow access to record."); }
+        } catch (err) { alert("Mic error. Please allow microphone access."); }
     }
 
     function nextQuestion() {
@@ -247,49 +285,34 @@
     function stopAndFinish() {
         mediaRecorder.stop();
         clearInterval(timerInt);
-        document.getElementById('repName').textContent = `${document.getElementById('lastName').value}, ${document.getElementById('firstName').value}`;
+        document.getElementById('repName').textContent = document.getElementById('sName').value;
         document.getElementById('repClass').textContent = document.getElementById('sClass').value;
         document.getElementById('setupUI').style.display = 'none';
         document.getElementById('reportArea').style.display = 'block';
         if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t => t.stop());
     }
 
-    function retryTest() {
-        if(confirm("Delete current recording and start again?")) {
-            location.reload();
-        }
-    }
-
     async function uploadToDrive() {
         const driveBtn = document.getElementById('driveBtn');
-        const retryBtn = document.getElementById('retryBtn');
         driveBtn.disabled = true;
-        retryBtn.style.display = 'none';
-        document.getElementById('status').textContent = "⏳ Sending to Drive...";
-        document.getElementById('status').style.color = "orange";
+        document.getElementById('status').textContent = "⏳ Sending to teacher...";
 
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
         reader.onloadend = async () => {
             const base64data = reader.result.split(',')[1];
-            try {
-                fetch(SCRIPT_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    body: JSON.stringify({
-                        base64: base64data,
-                        filename: `${document.getElementById('lastName').value}_${document.getElementById('firstName').value}_${document.getElementById('sClass').value}.mp3`
-                    })
-                });
-                setTimeout(() => {
-                    document.getElementById('submissionControls').style.display = 'none';
-                    document.getElementById('finalSuccessMessage').style.display = 'block';
-                }, 2000);
-            } catch (e) {
-                alert("Upload error. Please try again.");
-                driveBtn.disabled = false;
-                retryBtn.style.display = 'block';
-            }
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify({
+                    base64: base64data,
+                    filename: `${document.getElementById('sClass').value}_${document.getElementById('sName').value}.mp3`
+                })
+            });
+            setTimeout(() => {
+                document.getElementById('submissionControls').style.display = 'none';
+                document.getElementById('finalSuccessMessage').style.display = 'block';
+            }, 2000);
         };
     }
 </script>
